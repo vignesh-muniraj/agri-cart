@@ -35,10 +35,16 @@ function CategoriesList() {
   ];
 
   return (
-    <div className="categriesList-container">
+     <div>
+     <div className="category-heading">
+     <h3>---- CATEGORIES ----</h3>
+     <p>Discover boundless choices with over 500+ handpicked products</p>
+     </div>
+      <div className="categriesList-container">
       {categories_data.map((categorie, index) => (
         <Categories key={index} categorie={categorie} />
-      ))}
+        ))}
+        </div>
     </div>
   );
 }
