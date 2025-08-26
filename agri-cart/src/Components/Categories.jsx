@@ -1,11 +1,15 @@
 import React from "react";
 
-function Categories({ categorie }) {
+function Categories({ categorie ,selected_Category}) {
   return (
     <div>
       <div className="category-card">
         <div className="category-image">
-          <img onClick={()=>alert(categorie.name)} src={categorie.poster} alt={categorie.name} />
+          <img
+           onClick={()=>selected_Category(categorie.name)}
+            src={categorie.poster}
+            alt={categorie.name}
+          />
         </div>
         <p className="category-name">{categorie.name}</p>
       </div>

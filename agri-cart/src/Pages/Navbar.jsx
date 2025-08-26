@@ -1,5 +1,6 @@
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import IconButton from "@mui/material/IconButton";
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 function Navbar() {
   return (
@@ -14,6 +15,9 @@ function Navbar() {
           <li>Products</li>
           <li>Blogs</li>
           <li>Contact</li>
+          <IconButton>
+            <ShoppingCartIcon />
+          </IconButton>
           <IconButton>
             <AccountCircleIcon />
           </IconButton>
