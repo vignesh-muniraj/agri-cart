@@ -5,7 +5,7 @@ function Categories({ categorie }) {
     <div>
       <div className="category-card">
         <div className="category-image">
-          <img src={categorie.poster} alt={categorie.name} />
+          <img onClick={()=>alert(categorie.name)} src={categorie.poster} alt={categorie.name} />
         </div>
         <p className="category-name">{categorie.name}</p>
       </div>

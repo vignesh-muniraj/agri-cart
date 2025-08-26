@@ -7,13 +7,12 @@ function Product({ product }) {
       <img src={product.poster} alt="Kiwi" className="product-image" />
 
       <h3 className="product-title">{product.name}</h3>
-
       <p className="product-quantity">1 Piece</p>
 
       <div className="price-row">
         <div>
-          <span className="old-price">{product.old_price}</span>
-          <span className="new-price">{product.price}</span>
+          <span className="old-price">{"₹"+product.old_price}</span>
+          <span className="new-price">{"₹"+product.price}</span>
         </div>
         <button className="add-btn">Add</button>
       </div>

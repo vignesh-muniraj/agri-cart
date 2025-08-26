@@ -42,7 +42,7 @@ function CategoriesList() {
      </div>
       <div className="categriesList-container">
       {categories_data.map((categorie, index) => (
-        <Categories key={index} categorie={categorie} />
+        <Categories key={index} name={categorie.name}categorie={categorie} btn={<button></button>} />
         ))}
         </div>
     </div>
