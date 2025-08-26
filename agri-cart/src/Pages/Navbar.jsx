@@ -22,12 +22,12 @@ function Navbar() {
             <Link to="/Sample_Categore">Products</Link>
           </li>
           <li>
-            <Link to="/blogs">Blogs</Link>
+            <Link to="/blog">Blogs</Link>
           </li>
           <li>
             <Link to="/contact">Contact</Link>
           </li>
-          <IconButton onClick={() => navigate("/ShoppingBag")}>
+          <IconButton onClick={() => navigate("/AddCart")}>
             <ShoppingCartIcon />
           </IconButton>
           <IconButton>

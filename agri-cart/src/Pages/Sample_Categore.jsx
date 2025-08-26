@@ -71,9 +71,9 @@ function Sample_Categore() {
     
   }
   return (
-    <div>
+    <div className="category-main">
       <div className="category-heading">
-        <h3>---- CATEGORIES ----</h3>
+        <h3> CATEGORIES 🛒 </h3>
         <p>Discover boundless choices with over 500+ handpicked products</p>
       </div>
       <div className="categriesList-container">
