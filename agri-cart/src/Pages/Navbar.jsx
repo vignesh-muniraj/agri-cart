@@ -1,8 +1,10 @@
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import IconButton from "@mui/material/IconButton";
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { Link, Navigate, useNavigate } from "react-router";
 
 function Navbar() {
+  const navigate = useNavigate()
   return (
     <div>
       <nav>
@@ -10,12 +12,22 @@ function Navbar() {
           <img src="src/assets/logo.png" alt="" />
         </div>
         <ul>
-          <li>Home</li>
-          <li>About</li>
-          <li>Products</li>
-          <li>Blogs</li>
-          <li>Contact</li>
-          <IconButton>
+          <li>
+            <Link to="/home">Home</Link>
+          </li>
+          <li>
+            <Link to="/about">About</Link>
+          </li>
+            <li>
+            <Link to="/Sample_Categore">Products</Link>
+          </li>
+          <li>
+            <Link to="/blogs">Blogs</Link>
+          </li>
+          <li>
+            <Link to="/contact">Contact</Link>
+          </li>
+          <IconButton onClick={() => navigate("/ShoppingBag")}>
             <ShoppingCartIcon />
           </IconButton>
           <IconButton>

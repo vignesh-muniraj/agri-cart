@@ -4,16 +4,27 @@
     /* font-family: ro; */
      font-family: "Roboto", sans-serif;
 }
+
 nav{
+
     display: flex;
     justify-content: space-between;
     font-size: large;
     font-weight: 500;
+     text-decoration: none;
+     list-style: none;
+
     ul{
     display: flex;
-    gap: 20px;
-    list-style: none;
+    gap: 15px;
     align-items: center;
+    list-style: none;
+    
+}
+ ul li a {
+  text-decoration: none;  
+  color:rgb(4, 53, 4);
+  transition: color 0.2s;
 }
 img{
         height: 100px;

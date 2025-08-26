@@ -59,13 +59,16 @@ function Sample_Categore() {
       console.log("Oops:", error);
     }
   }
-
   useEffect(() => {
     getProducts();
   }, []);
 
   function selected_Category(categorie) {
     setselectCategory(categorie);
+  }
+
+  function addCart(addCartProduct){
+    
   }
   return (
     <div>
@@ -79,6 +82,7 @@ function Sample_Categore() {
             key={index}
             categorie={categorie}
             selected_Category={selected_Category}
+            addCart={addCart}
           />
         ))}
       </div>
@@ -88,7 +92,7 @@ function Sample_Categore() {
             (product) =>
               selectCategory === "All" || product.category === selectCategory
           )
-          .map((product) => (
+          .map((product,index) => (
             <Product key={product.id} product={product} />
           ))}
       </div>
