@@ -30,12 +30,7 @@ img{
         height: 100px;
     }
 }
-.hero-container{
- img{
-    /* width: 1400px; */
-    object-fit: cover;
-}
-}
+
 .productlist-container{
    display: flex;
     flex-wrap: wrap;
@@ -334,9 +329,9 @@ border-radius: 16px;
 display: flex;
 flex-wrap: wrap;
 justify-content: space-around;
-/* align-items: center; */
 height: 300px;
-background-color: #80e9bf50;
+margin-top: 20px;
+/* background-color: #80e9bf50; */
 h3{
   color: green;
   font-weight: 400;
@@ -364,3 +359,217 @@ ul li {
 .footer-location{
  line-height: 32px;
 }
+
+/* About */
+.about-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: "Arial", sans-serif;
+  line-height: 1.6;
+  color: #333;
+}
+
+.about-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #2e7d32; /* Green shade */
+}
+
+.about-intro {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.highlight {
+  font-weight: bold;
+  color: #43a047; /* Bright green */
+}
+
+.about-section {
+  margin-bottom: 25px;
+}
+
+.about-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #388e3c;
+}
+
+.about-section ul {
+  list-style-type: "🌿 ";
+  padding-left: 20px;
+}
+
+.about-cta {
+  text-align: center;
+  margin-top: 40px;
+  background: #f1f8e9;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.about-cta p {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: #2e7d32;
+}
+
+.about-btn {
+  background: #43a047;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  /* transition: background 0.3s ease-in-out; */
+}
+
+.about-btn:hover {
+  background: #2e7d32;
+}
+
+
+
+/* blog */
+.blog-container {
+  max-width: 1100px;
+  margin: 0px auto;
+  padding: 20px;
+  font-family: "Arial", sans-serif;
+  color: #333;
+}
+
+.blog-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: #2e7d32;
+}
+
+.blog-subtitle {
+  text-align: center;
+  font-size: 1.1rem;
+  margin-bottom: 40px;
+  color: #555;
+}
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+.blog-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+}
+
+.blog-card:hover {
+  transform: translateY(-5px);
+}
+
+.blog-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.blog-content {
+  padding: 20px;
+}
+
+.blog-content h2 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+  color: #388e3c;
+}
+
+.blog-date {
+  font-size: 0.9rem;
+  color: #777;
+  margin-bottom: 10px;
+}
+
+.blog-btn {
+  margin-top: 10px;
+  background: #43a047;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.blog-btn:hover {
+  background: #2e7d32;
+}
+
+/* Hero */
+.hero-container{
+  /* height: 100px; */
+ img{
+    object-fit: cover;
+    /* height: 50px; */
+  }
+}
+/* Carousel container */
+
+
+/* Slide images */
+.carousel .slide img {
+  height: 500px;
+  width: 50%;
+  object-fit: cover;
+  border-radius: 25px;
+}
+
+/* Legend text (caption) */
+.carousel .legend {
+  background: rgba(34, 139, 34, 0.8); /* forest green tint */
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 15px;
+  bottom: 25px;
+  padding: 10px 20px;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+/* Dots (indicators) */
+.carousel .control-dots .dot {
+  background: #228b22; /* forest green */
+  width: 14px;
+  height: 14px;
+  margin: 0 6px;
+  opacity: 0.6;
+  transition: all 0.3s ease;
+}
+
+.carousel .control-dots .dot.selected {
+  background: #32cd32; /* lime green for active */
+  transform: scale(1.2);
+  opacity: 1;
+}
+
+/* Navigation arrows */
+.carousel .control-arrow {
+  background: rgba(50, 205, 50, 0.7); /* lime green */
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  top: 45%;
+  transition: all 0.3s ease;
+}
+
+.carousel .control-arrow:hover {
+  background: rgba(0, 128, 0, 0.9);
+} 
+

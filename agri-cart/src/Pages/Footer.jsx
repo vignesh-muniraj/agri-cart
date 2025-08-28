@@ -40,13 +40,13 @@ function Footer() {
         <h3>Company</h3>
         <ul>
           <li>
-            <Link to="/contact">About</Link>
+            <Link to="/about">About</Link>
           </li>
           <li>
-            <Link to="/contact">Products</Link>
+            <Link to="/Sample_Categore">Products</Link>
           </li>
           <li>
-            <Link to="/contact">Blog</Link>
+            <Link to="/blog">Blog</Link>
           </li>
           <li>
             <Link to="/contact">Contact</Link>
