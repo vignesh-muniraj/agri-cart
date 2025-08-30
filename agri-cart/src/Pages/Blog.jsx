@@ -51,7 +51,7 @@
 import React from "react";
 
 function Blog() {
-  // Dummy blog data
+  
   const blogPosts = [
     {
       id: 1,
@@ -66,6 +66,20 @@ function Blog() {
       date: "August 10, 2025",
       image: "https://i.pinimg.com/736x/fb/af/79/fbaf797a492d9a5572bebd0064e530f4.jpg", 
       excerpt: "Learn about eco-friendly techniques we use to grow chemical-free crops.",
+    },
+    {
+      id: 3,
+      title: "Top 5 Seasonal Fruits You Must Try",
+      date: "July 28, 2025",
+      image: "https://i.pinimg.com/736x/9d/7d/d2/9d7dd2cc7f7677ea218f5c3a3314bdf7.jpg",
+      excerpt: "Explore the freshest seasonal fruits and their amazing health benefits.",
+    },
+    {
+      id: 3,
+      title: "Top 5 Seasonal Fruits You Must Try",
+      date: "July 28, 2025",
+      image: "https://i.pinimg.com/736x/9d/7d/d2/9d7dd2cc7f7677ea218f5c3a3314bdf7.jpg",
+      excerpt: "Explore the freshest seasonal fruits and their amazing health benefits.",
     },
     {
       id: 3,
