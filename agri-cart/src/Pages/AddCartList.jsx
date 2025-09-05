@@ -12,7 +12,7 @@ function AddCartList() {
       );
       const data = await response.json();
       setProductsList(data.map(item => ({ ...item, count: item.count || 1 })));
-      console.log("🔥🔥🔥🔥🔥🔥🔥")
+      // console.log("🔥🔥🔥🔥🔥🔥🔥")
     } catch (error) {
       console.log("Oops:", error);
     }
@@ -29,7 +29,6 @@ function AddCartList() {
     }
   }
 
-  // ✅ Update count in parent
   function handleQuantityChange(id, newCount) {
     setProductsList((prevList) =>
       prevList.map((item) =>

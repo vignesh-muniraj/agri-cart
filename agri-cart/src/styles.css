@@ -663,9 +663,9 @@ height: 30px;
   width: 600px;
   margin: 20px auto;
   padding: 16px;
-  border: 2px solid #4CAF50; /* fresh green border */
+  border: 2px solid #4CAF50; 
   border-radius: 12px;
-  background: #f9fff9; /* light greenish background */
+  background: #f9fff9;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -726,5 +726,5 @@ height: 30px;
 }
 
 .checkout-btn:hover {
-  background: #388e3c; /* darker green on hover */
+  background: #388e3c; 
 }
