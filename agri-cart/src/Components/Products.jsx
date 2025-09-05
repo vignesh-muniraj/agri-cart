@@ -34,7 +34,7 @@ function Product({ product, addCart }) {
       <h3 className="product-title">{product.name}</h3>
       <p className="product-quantity">{product.quantity || "1 Piece"}</p>
 
-      <div className="price-row">
+      <div className="product-price-row">
         <div>
           {/* <span className="old-price">{"₹" + product.old_price}</span> */}
           <span className="new-price">{"₹" + product.price}</span>
