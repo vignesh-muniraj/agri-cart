@@ -205,7 +205,7 @@ function ProductList() {
             <Product
               key={product.id}
               product={product}
-              addCart={addCart}  // ✅ pass function down
+              addCart={addCart} 
             />
           ))}
       </div>

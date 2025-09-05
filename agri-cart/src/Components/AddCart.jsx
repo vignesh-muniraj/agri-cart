@@ -10,26 +10,20 @@ function AddCart({ product, onDelete }) {
   const [error, setError] = useState("");
 
   return (
-    <div className="product-card">
-      <div className="offer-badge">Brand</div>
-      <img src={product.poster} alt={product.name} className="product-image" />
-
-      <h1 className="product-title">{product.name}</h1>
-      <p className="product-quantity">{product.quantity}</p>
-
-      <div className="price-row">
-        <div>
-          <span className="new-price">{"₹" + product.price * increament}</span>
+    <div className="cart-main">
+      <div className="addcart-card">
+        <div className="offer-badge">Brand</div>
+        <img
+          src={product.poster}
+          alt={product.name}
+          className="product-image"
+        />
+        <div className="cart-content">
+        <div >
+        <h1 className="product-title">{product.name}</h1>
+        <p className="product-quantity">{product.quantity}</p>
         </div>
-        <IconButton
-          sx={{ color: "crimson" }}
-          onClick={() => onDelete(product.id)}
-        >
-          <RemoveShoppingCartIcon />
-        </IconButton>
-      </div>
-
-      <div className="cart-btn">
+             <div className="cart-btn" >
         <IconButton
           sx={{ color: "green" }}
           onClick={() => {
@@ -54,8 +48,29 @@ function AddCart({ product, onDelete }) {
           <AddCircleOutlineIcon />
         </IconButton>
       </div>
-
-      {error && <p style={{ color: "red", fontSize: "14px" }}>{error}</p>}
+        </div>
+        <div className="price-row">
+          <div>
+            <span className="new-price">
+              {"₹" + product.price}
+            </span>
+          </div>
+           <div>
+            <span className="new-price">
+             <p className="lite">{increament + " ×  " + product.quantity } </p><p>{ " ₹" + product.price * increament}</p>
+              
+            </span>
+          </div>
+          <IconButton
+            sx={{ color: "crimson" }}
+            onClick={() => onDelete(product.id)}
+          >
+            <RemoveShoppingCartIcon />
+          </IconButton>
+        </div>
+        {error && <p style={{ color: "red", fontSize: "14px" }}>{error}</p>}
+      </div>
+      
     </div>
   );
 }
