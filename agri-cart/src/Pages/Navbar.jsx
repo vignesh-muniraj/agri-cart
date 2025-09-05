@@ -19,7 +19,7 @@ function Navbar() {
             <Link to="/about">About</Link>
           </li>
             <li>
-            <Link to="/Sample_Categore">Products</Link>
+            <Link to="/ProductList">Products</Link>
           </li>
           <li>
             <Link to="/blog">Blogs</Link>

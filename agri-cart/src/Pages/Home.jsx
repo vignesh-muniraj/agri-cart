@@ -1,10 +1,12 @@
 import { Hero } from "./Hero";
-import { Sample_Categore } from "./Sample_Categore";
+import { ProductList } from "./ProductList";
 
 function Home() {
-  return <div>
-    <Hero/>
-    <Sample_Categore/>
-  </div>;
+  return (
+    <div>
+      <Hero />
+      <ProductList />
+    </div>
+  );
 }
-export {Home};
+export { Home };
