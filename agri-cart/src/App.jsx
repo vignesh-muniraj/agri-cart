@@ -10,6 +10,8 @@ import { About } from "./About";
 import { Recomended } from "./Components/Recomended";
 import { ContactPage } from "./Pages/ContactPage";
 import { AddCartList } from "./Pages/AddCartList";
+import { Login } from "./Pages/Login";
+import { Signup } from "./Pages/Signup";
 
 function App() {
   return (
@@ -22,7 +24,9 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/Login" element={<Login />} />
         <Route path="/" element={<Home />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
       <Footer />
     </div>

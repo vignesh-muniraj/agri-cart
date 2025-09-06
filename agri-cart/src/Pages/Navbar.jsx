@@ -1,41 +1,44 @@
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { Link, Navigate, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 
-function Navbar() {
-  const navigate = useNavigate()
+function Navbar({ totalItems }) {
+  const navigate = useNavigate();
+
   return (
-    <div>
-      <nav>
-        <div>
-          <img src="src/assets/logo.png" alt="" />
-        </div>
-        <ul>
-          <li>
-            <Link to="/home">Home</Link>
-          </li>
-          <li>
-            <Link to="/about">About</Link>
-          </li>
-            <li>
-            <Link to="/ProductList">Products</Link>
-          </li>
-          <li>
-            <Link to="/blog">Blogs</Link>
-          </li>
-          <li>
-            <Link to="/contact">Contact</Link>
-          </li>
-          <IconButton onClick={() => navigate("/AddCart")}>
-            <ShoppingCartIcon />
-          </IconButton>
-          <IconButton>
-            <AccountCircleIcon />
-          </IconButton>
-        </ul>
-      </nav>
-    </div>
+    <nav>
+      <div>
+        <img src="src/assets/logo.png" alt="Logo" />
+      </div>
+      <ul>
+        <li>
+          <Link to="/home">Home</Link>
+        </li>
+        <li>
+          <Link to="/about">About</Link>
+        </li>
+        <li>
+          <Link to="/ProductList">Products</Link>
+        </li>
+        <li>
+          <Link to="/blog">Blogs</Link>
+        </li>
+        <li>
+          <Link to="/contact">Contact</Link>
+        </li>
+
+        <IconButton onClick={() => navigate("/AddCart")}>
+          <ShoppingCartIcon />
+          {totalItems > 0 && <span>({totalItems})</span>}
+        </IconButton>
+
+        <IconButton onClick={()=> navigate("/Login")}>
+          <AccountCircleIcon />
+
+        </IconButton>
+      </ul>
+    </nav>
   );
 }
 
