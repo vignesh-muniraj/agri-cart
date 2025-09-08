@@ -1,6 +1,7 @@
 import Categories from "../Components/Categories";
 import React, { useState, useEffect } from "react";
 import { Product } from "../Components/Products";
+import { API } from "./Global";
 
 function ProductList() {
   const categories_data = [
@@ -47,10 +48,11 @@ function ProductList() {
   async function getProducts() {
     try {
       const response = await fetch(
-        "https://68959014039a1a2b288f7c48.mockapi.io/agri-cart"
+        `${API}/products`
       );
       const data = await response.json();
       console.log("response", response.status);
+      console.log("🔥🔥🔥🔥🔥"+data);
       if (response.status === 404) {
         throw new Error("Not found");
       }
