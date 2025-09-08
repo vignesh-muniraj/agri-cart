@@ -1,7 +1,21 @@
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import * as React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { styled } from "@mui/material/styles";
+import Badge from "@mui/material/Badge";
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { Link, useNavigate } from "react-router-dom";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+// Styled badge for cart count
+const StyledBadge = styled(Badge)(() => ({
+  "& .MuiBadge-badge": {
+    right: -3,
+    top: 5,
+    border: "2px solid white",
+    padding: "0 4px",
+    backgroundColor: "#ff0000 !important", // 🔴 force red
+    color: "white !important", // force white text
+  },
+}));
 
 function Navbar({ totalItems }) {
   const navigate = useNavigate();
@@ -28,14 +42,16 @@ function Navbar({ totalItems }) {
           <Link to="/contact">Contact</Link>
         </li>
 
-        <IconButton onClick={() => navigate("/AddCart")}>
-          <ShoppingCartIcon />
-          {totalItems > 0 && <span>({totalItems})</span>}
+        <IconButton onClick={() => navigate("/AddCart")} aria-label="cart">
+          {" "}
+          <StyledBadge badgeContent={7}>
+            {" "}
+            <ShoppingCartIcon />{" "}
+          </StyledBadge>{" "}
         </IconButton>
 
-        <IconButton onClick={()=> navigate("/Login")}>
+        <IconButton onClick={() => navigate("/Login")}>
           <AccountCircleIcon />
-
         </IconButton>
       </ul>
     </nav>
