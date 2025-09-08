@@ -1,19 +1,22 @@
 import { useFormik } from "formik";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { object, string } from "yup";
 import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import { API } from "./Global";  
 
 // ✅ Validation schema
 const loginSchema = object({
-  username: string().required("Username is required "),
+  username: string().required("Username is required"),
   password: string()
-    .required("Password is required ")
-    .min(8, "Password must be at least 8 characters "),
+    .required("Password is required")
+    .min(8, "Password must be at least 8 characters"),
 });
 
 export function Login() {
   const navigate = useNavigate();
+  const [error, setError] = useState("");
 
   const { handleSubmit, values, handleChange, handleBlur, touched, errors } =
     useFormik({
@@ -41,18 +44,18 @@ export function Login() {
         localStorage.setItem("token", data.token);
         navigate("/home");
       } else {
-        alert(data.error || "Login failed");
+        setError(data.error || "Login failed");
       }
     } catch (error) {
       console.error("Login error:", error);
-      alert("Something went wrong, please try again!");
+      setError("Something went wrong, please try again!");
     }
   };
 
   return (
     <div className="login-container">
       <form onSubmit={handleSubmit} className="login-form">
-        <h2> Agri-Cart Login</h2>
+        <h2>Agri-Cart Login</h2>
 
         <TextField
           fullWidth
@@ -79,13 +82,20 @@ export function Login() {
           helperText={touched.password && errors.password}
         />
 
-        <button type="submit" className="login-btn">
+        {error && <p className="error-text">{error}</p>}
+
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          fullWidth
+          sx={{ marginTop: 2 }}
+        >
           Login
-        </button>
+        </Button>
 
         <p className="signup-link">
-          Don’t have an account?
-          <Link to="/Signup">Signup</Link>
+          Don’t have an account? <Link to="/Signup">Signup</Link>
         </p>
       </form>
     </div>
