@@ -12,11 +12,11 @@ function AddCartList() {
       );
       const data = await response.json();
       setProductsList(data.map(item => ({ ...item, count: item.count || 1 })));
-      // console.log("🔥🔥🔥🔥🔥🔥🔥")
     } catch (error) {
       console.log("Oops:", error);
     }
   }
+
   async function handleDelete(id) {
     try {
       await fetch(
@@ -52,10 +52,17 @@ function AddCartList() {
     0
   );
 
+  // Fake discount & coupon for UI
+  const discount = 0;
+  const coupon = 0;
+  const deliveryFee = 0;
+  const finalAmount = totalPrice - discount - coupon + deliveryFee;
+  const totalSaved = discount + coupon;
+
   return (
     <div className="cart-container">
       {/* Left side */}
-      <div className="addcart">
+      <div className="cart-left">
         {productsList.length > 0 ? (
           productsList.map((product) => (
             <AddCart
@@ -66,46 +73,38 @@ function AddCartList() {
             />
           ))
         ) : (
-          <p>🛒 Your cart is empty</p>
+          <p className="empty-cart">🛒 Your cart is empty</p>
         )}
       </div>
 
-      {/* Right side */}
+      {/* Right side - Flipkart style */}
       {productsList.length > 0 && (
-        <div className="delivery-items">
-          <h4>Summary</h4>
+        <div className="cart-right">
+          <h4 className="price-title">PRICE DETAILS</h4>
           <hr />
 
-          <div className="price-row header">
-            <span>Item name</span>
-            <span>Quantity</span>
-            <span>Price</span>
+          <div className="price-row">
+            <span>Price ({totalItems} items)</span>
+            <span>₹{totalPrice}</span>
           </div>
-
-          {productsList.map((item) => (
-            <div className="price-row" key={item.id}>
-              <span className="item-name">{item.name}</span>
-              <span>{item.count}</span>
-              <span>₹{item.price * item.count}</span>
-            </div>
-          ))}
-
-          <div className="price-row summary">
-            <span>
-              <strong>{totalItems} items</strong>
-            </span>
-            <span>
-              <strong>{totalQuantity}</strong>
-            </span>
-            <span>
-              <strong>Total: ₹{totalPrice}</strong>
-            </span>
+          <div className="price-row green">
+            <span>Discount</span>
+            <span>- ₹{discount}</span>
           </div>
-
-     
-          <button className="checkout-btn">
-             Checkout
-          </button>
+          <div className="price-row green">
+            <span>Coupons</span>
+            <span>- ₹{coupon}</span>
+          </div>
+          <div className="price-row">
+            <span>Platform Fee</span>
+            <span>₹{deliveryFee}</span>
+          </div>
+          <hr />
+          <div className="price-row total">
+            <span>Total Amount</span>
+            <span>₹{finalAmount}</span>
+          </div>
+          <p className="saved">You will save ₹{totalSaved} on this order</p>
         </div>
       )}
     </div>

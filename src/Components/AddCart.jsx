@@ -1,83 +1,57 @@
-  import { useState } from "react"; 
-  import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-  import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
-  import { IconButton } from "@mui/material";
-  import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
+import { useState } from "react";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import { IconButton } from "@mui/material";
+import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 
-  function AddCart({ product, onDelete, onQuantityChange }) {
-    const [error, setError] = useState("");
+function AddCart({ product, onDelete, onQuantityChange }) {
+  const [error, setError] = useState("");
 
-    return (
-      <div className="cart-main">
-        <div className="addcart-card">
-          <div className="offer-badge">Brand</div>
+  return (
+    <div className="cart-item">
+      <img src={product.poster} alt={product.name} className="cart-img" />
 
-          <img
-            src={product.poster}
-            alt={product.name}
-            className="product-image"
-          />
+      <div className="cart-info">
+        <h3>{product.name}</h3>
+        <p>{product.quantity}</p>
+        <p className="cart-price">₹{product.price}</p>
+         {error && <p className="error">{error}</p>}
+   </div>
+        {/* Quantity buttons */}
+        <div className="cart-qty">
+          <IconButton
+            onClick={() => {
+              if (product.count > 1) {
+                onQuantityChange(product.id, product.count - 1);
+                setError("");
+              } else {
+                setError("Minimum 1 required");
+              }
+            }}
+          >
+            <RemoveCircleOutlineIcon />
+          </IconButton>
 
-          <div className="cart-content">
-            <div>
-              <h1 className="product-title">{product.name}</h1>
-              <p className="product-quantity">{product.quantity}</p>
-            </div>
+          <span>{product.count}</span>
 
-            {/* Quantity buttons */}
-            <div className="cart-btn">
-              <IconButton
-                sx={{ color: "green" }}
-                onClick={() => {
-                  if (product.count > 1) {
-                    onQuantityChange(product.id, product.count - 1);
-                    setError("");
-                  } else {
-                    setError("Minimum quantity should be 1");
-                  }
-                }}
-              >
-                <RemoveCircleOutlineIcon />
-              </IconButton>
-
-              <p>{product.count}</p>
-
-              <IconButton
-                sx={{ color: "green" }}
-                onClick={() => {
-                  onQuantityChange(product.id, product.count + 1);
-                  setError("");
-                }}
-              >
-                <AddCircleOutlineIcon />
-              </IconButton>
-            </div>
+          <IconButton
+            onClick={() => {
+              onQuantityChange(product.id, product.count + 1);
+              setError("");
+            }}
+          >
+            <AddCircleOutlineIcon />
+          </IconButton>
           </div>
-
-          {/* Price Row */}
-          <div className="price-row">
-            <div>
-              <span className="new-price">₹{product.price}</span>
-            </div>
-            <div>
-              <p className="lite">
-                {product.count} × {product.quantity}
-              </p>
-              <p>₹{product.price * product.count}</p>
-            </div>
-            <IconButton
-              sx={{ color: "crimson" }}
-              onClick={() => onDelete(product.id)}
-            >
-              <RemoveShoppingCartIcon />
-            </IconButton>
+         
+          <div className="cart-actions">
+          <p> ₹{product.price * product.count}</p>
+          <IconButton onClick={() => onDelete(product.id)} color="error">
+          <RemoveShoppingCartIcon />
+          </IconButton>
           </div>
-          
-          {/* Error message */}
-          {error && <p style={{ color: "red", fontSize: "14px" }}>{error}</p>}
-          </div>
-      </div>
-    );
-  }
+    </div>
+  );
+}
 
-  export { AddCart };
+export { AddCart };
