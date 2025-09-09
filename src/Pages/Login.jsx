@@ -42,6 +42,7 @@ export function Login() {
       const data = await response.json();
       if (data?.token) {
         localStorage.setItem("token", data.token);
+        localStorage.setItem("id", data.id);
         navigate("/home");
       } else {
         setError(data.error || "Login failed");

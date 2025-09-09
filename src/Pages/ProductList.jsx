@@ -45,14 +45,11 @@ function ProductList() {
   const [productsList, setProductsList] = useState([]);
   const [selectCategory, setselectCategory] = useState("All");
 
+  // ✅ Fetch all products
   async function getProducts() {
     try {
-      const response = await fetch(
-        `${API}/products`
-      );
+      const response = await fetch(`${API}/products`);
       const data = await response.json();
-      console.log("response", response.status);
-      console.log("🔥🔥🔥🔥🔥"+data);
       if (response.status === 404) {
         throw new Error("Not found");
       }
@@ -70,29 +67,37 @@ function ProductList() {
     setselectCategory(categorie);
   };
 
+  // ✅ Add to cart (connected to Flask backend)
   const addCart = async (product) => {
     console.log("Trying to add to cart:", product);
+
+    const user_id = localStorage.getItem("id"); // get logged-in user_id
+    console.log("❓❓❓❓❓❓❓"+user_id)
+    if (!user_id) {
+      alert("Please login first!");
+      return;
+    }
+
     try {
-      const response = await fetch(
-        "https://68b9551f6aaf059a5b572907.mockapi.io/cart/cart"
-      );
-      const cartItems = await response.json();
+      const response = await fetch(`${API}/cart`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: parseInt(user_id), // backend expects int
+          product_id: product.id,
+          price: product.price,
+          quantity: product.quantity || "500kg", // default if not set
+          count: 1,
+        }),
+      });
 
-      const exists = cartItems.some((item) => item.name === product.name);
-
-      if (!exists) {
-        const addResponse = await fetch(
-          "https://68b9551f6aaf059a5b572907.mockapi.io/cart/cart",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(product),
-          }
-        );
-
-        const data = await addResponse.json();
-        console.log("✅ Added:", data);
+      if (!response.ok) {
+        throw new Error("Failed to add to cart");
       }
+
+      const data = await response.json();
+      console.log("✅ Added:", data);
+      alert(`${product.name} added to cart!`);
     } catch (error) {
       console.error("❌ Error adding to cart:", error);
     }

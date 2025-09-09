@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import { useNavigate, Link } from "react-router-dom";
 import { object, string, ref } from "yup"; // ✅ add ref for confirm password
 import TextField from "@mui/material/TextField";
+  import { API } from "./Global";  
   
 // ✅ Validation schema with confirm password
 const signupSchema = object({

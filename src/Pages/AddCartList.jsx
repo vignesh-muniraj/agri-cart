@@ -1,40 +1,55 @@
 import React, { useState, useEffect } from "react";
 import { AddCart } from "../Components/AddCart";
+import { API } from "./Global";
 
 function AddCartList() {
   const [productsList, setProductsList] = useState([]);
+  const user_id = localStorage.getItem("id"); // ✅ user_id from login
 
-  // Fetch cart items
+  // ✅ Fetch cart items for logged in user
   async function getProducts() {
+    if (!user_id) {
+      console.log("⚠️ User not logged in");
+      return;
+    }
     try {
-      const response = await fetch(
-        "https://68b9551f6aaf059a5b572907.mockapi.io/cart/cart"
-      );
+      const response = await fetch(`${API}/cart/${user_id}`);
       const data = await response.json();
-      setProductsList(data.map(item => ({ ...item, count: item.count || 1 })));
+      setProductsList(data.map((item) => ({ ...item, count: item.count || 1 })));
     } catch (error) {
       console.log("Oops:", error);
     }
   }
 
+  // ✅ Delete cart item from backend
   async function handleDelete(id) {
     try {
-      await fetch(
-        `https://68b9551f6aaf059a5b572907.mockapi.io/cart/cart/${id}`,
-        { method: "DELETE" }
-      );
+      await fetch(`${API}/cart/${id}`, {
+        method: "DELETE",
+      });
       setProductsList(productsList.filter((item) => item.id !== id));
     } catch (error) {
       console.log("failed:", error);
     }
   }
 
-  function handleQuantityChange(id, newCount) {
-    setProductsList((prevList) =>
-      prevList.map((item) =>
-        item.id === id ? { ...item, count: newCount } : item
-      )
-    );
+  // ✅ Update quantity (PUT request to backend)
+  async function handleQuantityChange(id, newCount) {
+    try {
+      await fetch(`${API}/cart/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ count: newCount }),
+      });
+
+      setProductsList((prevList) =>
+        prevList.map((item) =>
+          item.id === id ? { ...item, count: newCount } : item
+        )
+      );
+    } catch (error) {
+      console.log("failed:", error);
+    }
   }
 
   useEffect(() => {
@@ -44,11 +59,11 @@ function AddCartList() {
   // ✅ Price calculations
   const totalItems = productsList.length;
   const totalQuantity = productsList.reduce(
-    (sum, item) => sum + (item.count || 1),
+    (sum, item) => sum + (parseInt(item.count) || 1),
     0
   );
   const totalPrice = productsList.reduce(
-    (sum, item) => sum + (item.price || 0) * (item.count || 1),
+    (sum, item) => sum + (parseFloat(item.price) || 0) * (parseInt(item.count) || 1),
     0
   );
 
