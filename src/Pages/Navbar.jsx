@@ -30,7 +30,7 @@ function Navbar({ totalItems }) {
         <li><Link to="/home">Home</Link></li>
         <li><Link to="/about">About</Link></li>
         <li><Link to="/ProductList">Products</Link></li>
-        <li><Link to="/blog">Blogs</Link></li>
+        <li><Link to="/sellerPage">Seller</Link></li>
         <li><Link to="/contact">Contact</Link></li>
 
         {/* ✅ Badge shows total items (all quantities) */}

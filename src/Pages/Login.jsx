@@ -65,6 +65,7 @@ export function Login() {
           value={values.username}
           onChange={handleChange}
           onBlur={handleBlur}
+           color="success"
           error={touched.username && Boolean(errors.username)}
           helperText={touched.username && errors.username}
         />
@@ -78,21 +79,16 @@ export function Login() {
           value={values.password}
           onChange={handleChange}
           onBlur={handleBlur}
+          color="success"
           error={touched.password && Boolean(errors.password)}
           helperText={touched.password && errors.password}
         />
 
         {error && <p className="error-text">{error}</p>}
 
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          fullWidth
-          sx={{ marginTop: 2 }}
-        >
+        <button type="submit" className="signup-btn">
           Login
-        </Button>
+        </button>
 
         <p className="signup-link">
           Don’t have an account? <Link to="/Signup">Signup</Link>

@@ -786,6 +786,7 @@ height: 30px;
   width: 100%;
   max-width: 380px;
   text-align: center;
+  
 }
 
 .login-form h2 {
@@ -804,9 +805,9 @@ height: 30px;
 
 /* Button */
 .login-btn {
+  background: #1b6c45;
   width: 100%;
   padding: 12px;
-  background: #1b6c45;
   color: white;
   font-weight: bold;
   border: none;
@@ -817,6 +818,7 @@ height: 30px;
 }
 
 .login-btn:hover {
+  
   background: #039850;
 }
 
@@ -848,6 +850,7 @@ height: 30px;
   background: #f3f9f4; /* light green background */
   padding: 20px;
 }
+
 
 /* Form box */
 .signup-form {
@@ -881,6 +884,7 @@ height: 30px;
 }
 
 .signup-btn:hover {
+    
   background: #039850;
 }
 
@@ -899,4 +903,51 @@ height: 30px;
 
 .login-link a:hover {
   text-decoration: underline;
+}
+
+
+/* sellerpage */
+.sell-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+  background: #f9fff9; /* light greenish background */
+  padding: 20px;
+}
+
+.sell-form {
+  background: #ffffff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 450px;
+}
+
+.sell-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #1b6c45; /* agri-cart green */
+}
+
+.MuiTextField-root {
+  margin-bottom: 15px;
+}
+
+button,
+.MuiButton-root {
+  font-size: 1rem;
+  padding: 10px 15px;
+  border-radius: 8px;
+  text-transform: none !important;
+}
+
+.error-text {
+  color: red;
+  font-size: 0.85rem;
+  margin-top: 5px;
+  text-align: center;
 }

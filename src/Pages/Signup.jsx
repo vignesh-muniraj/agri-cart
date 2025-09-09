@@ -2,8 +2,7 @@ import { useFormik } from "formik";
 import { useNavigate, Link } from "react-router-dom";
 import { object, string, ref } from "yup"; // ✅ add ref for confirm password
 import TextField from "@mui/material/TextField";
-import { API } from "./Global";
-
+  
 // ✅ Validation schema with confirm password
 const signupSchema = object({
   username: string().required("Username is required "),
@@ -71,6 +70,7 @@ export function Signup() {
           value={values.username}
           onChange={handleChange}
           onBlur={handleBlur}
+           color="success"
           error={touched.username && Boolean(errors.username)}
           helperText={touched.username && errors.username}
         />
@@ -84,6 +84,7 @@ export function Signup() {
           value={values.email}
           onChange={handleChange}
           onBlur={handleBlur}
+           color="success"
           error={touched.email && Boolean(errors.email)}
           helperText={touched.email && errors.email}
         />
@@ -98,6 +99,7 @@ export function Signup() {
           value={values.password}
           onChange={handleChange}
           onBlur={handleBlur}
+           color="success"
           error={touched.password && Boolean(errors.password)}
           helperText={touched.password && errors.password}
         />
@@ -112,6 +114,7 @@ export function Signup() {
           value={values.confirmPassword}
           onChange={handleChange}
           onBlur={handleBlur}
+           color="success"
           error={touched.confirmPassword && Boolean(errors.confirmPassword)}
           helperText={touched.confirmPassword && errors.confirmPassword}
         />
