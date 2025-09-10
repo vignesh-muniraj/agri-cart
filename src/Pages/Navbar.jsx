@@ -5,7 +5,7 @@ import Badge from "@mui/material/Badge";
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-
+import LogoutIcon from "@mui/icons-material/Logout";
 // Styled badge for cart count
 const StyledBadge = styled(Badge)(() => ({
   "& .MuiBadge-badge": {
@@ -20,6 +20,14 @@ const StyledBadge = styled(Badge)(() => ({
 
 function Navbar({ totalItems }) {
   const navigate = useNavigate();
+  
+  const user_id = localStorage.getItem("id");
+  const user_name = localStorage.getItem("username");
+  const handleLogout = () => {
+  localStorage.clear();      
+  // setUser({ id: null, username: null });  
+  navigate("/Login");        
+};
 
   return (
     <nav>
@@ -27,11 +35,24 @@ function Navbar({ totalItems }) {
         <img src="src/assets/logo.png" alt="Logo" />
       </div>
       <ul>
-        <li><Link to="/home">Home</Link></li>
-        <li><Link to="/about">About</Link></li>
-        <li><Link to="/ProductList">Products</Link></li>
-        <li><Link to="/sellerPage">Seller</Link></li>
-        <li><Link to="/contact">Contact</Link></li>
+        <li>
+          <Link to="/home">Home</Link>
+        </li>
+        <li>
+          <Link to="/about">About</Link>
+        </li>
+        <li>
+          <Link to="/ProductList">Products</Link>
+        </li>
+        <li>
+          <Link to="/sellerPage">Seller</Link>
+        </li>
+        <li>
+          <Link to="/MyProducts">MyProducts</Link>
+        </li>
+        <li>
+          <Link to="/contact">Contact</Link>
+        </li>
 
         {/* ✅ Badge shows total items (all quantities) */}
         <IconButton onClick={() => navigate("/AddCart")} aria-label="cart">
@@ -39,10 +60,20 @@ function Navbar({ totalItems }) {
             <ShoppingCartIcon />
           </StyledBadge>
         </IconButton>
-
-        <IconButton onClick={() => navigate("/Login")}>
+        <div>
+        {user_id ? (
+          <IconButton onClick={handleLogout} aria-label="cart">
+          <StyledBadge>
+          <LogoutIcon />
+          </StyledBadge>
+          </IconButton>
+        ) : (
+          <IconButton onClick={() => navigate("/Login")}>
           <AccountCircleIcon />
-        </IconButton>
+          </IconButton>
+        )}
+        {/*<p>{user_name}</p>*/}
+        </div>
       </ul>
     </nav>
   );

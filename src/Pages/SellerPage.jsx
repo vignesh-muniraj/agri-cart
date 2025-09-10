@@ -1,3 +1,4 @@
+
 import { useFormik } from "formik";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -31,7 +32,9 @@ function SellerPage() {
       },
       validationSchema: productSchema,
       onSubmit: (product) => {
-        addProduct(product);
+        // ✅ also send user_id from localStorage
+        const user_id = localStorage.getItem("id");  
+        addProduct({ ...product, user_id });
       },
     });
 
@@ -155,4 +158,4 @@ function SellerPage() {
   );
 }
 
-export {SellerPage}
+export { SellerPage };

@@ -2,6 +2,7 @@ import Categories from "../Components/Categories";
 import React, { useState, useEffect } from "react";
 import { Product } from "../Components/Products";
 import { API } from "./Global";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function ProductList() {
   const categories_data = [
@@ -44,7 +45,7 @@ function ProductList() {
 
   const [productsList, setProductsList] = useState([]);
   const [selectCategory, setselectCategory] = useState("All");
-
+  const navigate = useNavigate()
   // ✅ Fetch all products
   async function getProducts() {
     try {
@@ -68,40 +69,59 @@ function ProductList() {
   };
 
   // ✅ Add to cart (connected to Flask backend)
-  const addCart = async (product) => {
-    console.log("Trying to add to cart:", product);
+const addCart = async (product) => {
+  const user_id = localStorage.getItem("id");
+  if (!user_id) {
+    navigate("/login")
+    return;
+  }
 
-    const user_id = localStorage.getItem("id"); // get logged-in user_id
-    console.log("❓❓❓❓❓❓❓"+user_id)
-    if (!user_id) {
-      alert("Please login first!");
-      return;
+  try {
+    const response = await fetch(`${API}/cart`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user_id: parseInt(user_id),
+        product_id: product.id,
+        quantity: product.quantity || "500g",
+        count: 1
+      }),
+    });
+
+    if (!response.ok) {
+      const err = await response.json();
+      throw new Error(err.error || "Failed to add to cart");
     }
 
-    try {
-      const response = await fetch(`${API}/cart`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          user_id: parseInt(user_id), // backend expects int
-          product_id: product.id,
-          price: product.price,
-          quantity: product.quantity || "500kg", // default if not set
-          count: 1,
-        }),
-      });
+    const data = await response.json();
+    // alert(`${data.name} added to cart!`);
+  } catch (error) {
+    console.error("Error adding to cart:", error);
+    alert(`Error: ${error.message}`);
+  }
+};
 
-      if (!response.ok) {
-        throw new Error("Failed to add to cart");
-      }
+// ✅ Delete product by Admin
+const deleteProduct = async (id) => {
+  try {
+    const response = await fetch(`${API}/products/${id}`, {
+      method: "DELETE",
+    });
 
-      const data = await response.json();
-      console.log("✅ Added:", data);
-      alert(`${product.name} added to cart!`);
-    } catch (error) {
-      console.error("❌ Error adding to cart:", error);
+    if (!response.ok) {
+      const err = await response.json();
+      throw new Error(err.error || "Failed to delete product");
     }
-  };
+
+    // ✅ Update UI instantly after deletion
+    setProductsList((prevList) => prevList.filter((p) => p.id !== id));
+    alert("Product deleted successfully!");
+  } catch (error) {
+    console.error("Delete error:", error);
+    alert(`Error: ${error.message}`);
+  }
+};
+
 
   return (
     <div className="category-main">
@@ -109,15 +129,14 @@ function ProductList() {
         <h3> CATEGORIES 🛒 </h3>
         <p>Discover boundless choices with over 500+ handpicked products</p>
       </div>
-
       <div className="categriesList-container">
-        {categories_data.map((categorie, index) => (
-          <Categories
-            key={index}
-            categorie={categorie}
-            selected_Category={selected_Category}
-          />
-        ))}
+      {categories_data.map((categorie, index) => (
+        <Categories
+        key={index}
+        categorie={categorie}
+        selected_Category={selected_Category}
+        />
+      ))}
       </div>
 
       <div className="productlist-container">
@@ -127,7 +146,7 @@ function ProductList() {
               selectCategory === "All" || product.category === selectCategory
           )
           .map((product) => (
-            <Product key={product.id} product={product} addCart={addCart} />
+            <Product key={product.id} product={product} addCart={addCart} onDelete={deleteProduct} />
           ))}
       </div>
     </div>

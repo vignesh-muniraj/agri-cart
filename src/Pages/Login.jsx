@@ -41,8 +41,10 @@ export function Login() {
       });
       const data = await response.json();
       if (data?.token) {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("id", data.id);
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("id", data.user.id);
+      localStorage.setItem("username", data.user.username);
+      localStorage.setItem("role", data.user.role); // optional
         navigate("/home");
       } else {
         setError(data.error || "Login failed");

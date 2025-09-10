@@ -35,6 +35,7 @@ function AddCartList() {
 
   // ✅ Update quantity (PUT request to backend)
   async function handleQuantityChange(id, newCount) {
+    console.log("🔥🔥🔥🔥🔥🔥"+newCount)
     try {
       await fetch(`${API}/cart/${id}`, {
         method: "PUT",

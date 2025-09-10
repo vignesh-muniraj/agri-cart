@@ -1,8 +1,9 @@
-
-
 import React from "react";
+import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
+import { IconButton } from "@mui/material";
 
-function Product({ product, addCart }) {
+function Product({ product, addCart, onDelete }) {
+  const role = localStorage.getItem("role");
   return (
     <div className="product-card">
       <div className="offer-badge">Brand</div>
@@ -16,9 +17,15 @@ function Product({ product, addCart }) {
           {/* <span className="old-price">{"₹" + product.old_price}</span> */}
           <span className="new-price">{"₹" + product.price}</span>
         </div>
-        <button className="add-btn" onClick={() => addCart(product)}>
-          Add
-        </button>
+        {role == "ADMIN" ? (
+          <IconButton onClick={() => onDelete(product.id)} color="error">
+            <RemoveShoppingCartIcon />
+          </IconButton>
+        ) : (
+          <button className="add-btn" onClick={() => addCart(product)}>
+            Add
+          </button>
+        )}
       </div>
     </div>
   );

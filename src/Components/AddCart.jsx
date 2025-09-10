@@ -5,7 +5,26 @@ import { IconButton } from "@mui/material";
 import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 
 function AddCart({ product, onDelete, onQuantityChange }) {
+  const [count, setCount] = useState(product.count || 1);
   const [error, setError] = useState("");
+
+  const handleIncrease = () => {
+    const newCount = count + 1;
+    setCount(newCount);              // ✅ instant update
+    setError("");
+    onQuantityChange(product.id, newCount); // sync to backend
+  };
+
+  const handleDecrease = () => {
+    if (count > 1) {
+      const newCount = count - 1;
+      setCount(newCount);            // ✅ instant update
+      setError("");
+      onQuantityChange(product.id, newCount);
+    } else {
+      setError("Minimum 1 required");
+    }
+  };
 
   return (
     <div className="cart-item">
@@ -15,43 +34,30 @@ function AddCart({ product, onDelete, onQuantityChange }) {
         <h3>{product.name}</h3>
         <p>{product.quantity}</p>
         <p className="cart-price">₹{product.price}</p>
-         {error && <p className="error">{error}</p>}
-   </div>
-        {/* Quantity buttons */}
-        <div className="cart-qty">
-          <IconButton
-            onClick={() => {
-              if (product.count > 1) {
-                onQuantityChange(product.id, product.count - 1);
-                setError("");
-              } else {
-                setError("Minimum 1 required");
-              }
-            }}
-          >
-            <RemoveCircleOutlineIcon />
-          </IconButton>
+        {error && <p className="error">{error}</p>}
+      </div>
 
-          <span>{product.count}</span>
+      {/* Quantity buttons */}
+      <div className="cart-qty">
+        <IconButton onClick={handleDecrease}>
+          <RemoveCircleOutlineIcon />
+        </IconButton>
 
-          <IconButton
-            onClick={() => {
-              onQuantityChange(product.id, product.count + 1);
-              setError("");
-            }}
-          >
-            <AddCircleOutlineIcon />
-          </IconButton>
-          </div>
-         
-          <div className="cart-actions">
-          <p> ₹{product.price * product.count}</p>
-          <IconButton onClick={() => onDelete(product.id)} color="error">
+        <span>{count}</span>
+
+        <IconButton onClick={handleIncrease}>
+          <AddCircleOutlineIcon />
+        </IconButton>
+      </div>
+
+      <div className="cart-actions">
+        <p>₹{product.price * count}</p>
+        <IconButton onClick={() => onDelete(product.id)} color="error">
           <RemoveShoppingCartIcon />
-          </IconButton>
-          </div>
+        </IconButton>
+
+      </div>
     </div>
   );
 }
-
 export { AddCart };
