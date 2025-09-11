@@ -45,7 +45,7 @@ function Navbar({ totalItems }) {
           <Link to="/ProductList">Products</Link>
         </li>
         <li>
-          <Link to="/sellerPage">Seller</Link>
+          <Link to="/sellerPage">Sell</Link>
         </li>
         <li>
           <Link to="/MyProducts">MyProducts</Link>

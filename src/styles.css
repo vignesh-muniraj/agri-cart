@@ -122,12 +122,13 @@ img{
 
 .add-btn {
   background: #1b6c45;
-  color: #fff;
+  color: white;
   border: none;
   padding: 6px 14px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
+  font-weight: bold;
   transition: background 0.3s ease;
 }
 
@@ -676,6 +677,7 @@ height: 30px;
   border-radius: 8px;
   padding: 16px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  height: fit-content;
 }
 
 .cart-item {
@@ -729,7 +731,29 @@ height: 30px;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   height: fit-content;
+
 }
+  .proceed{
+    width: 100%;
+
+  background: #1b6c45;
+  width: 100%;
+  padding: 12px;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: background 0.2s ease-in-out;
+}
+
+
+.proceed:hover {
+
+  background: #039850;
+}
+    
 
 .price-title {
   font-size: 18px;
@@ -951,3 +975,105 @@ button,
   margin-top: 5px;
   text-align: center;
 }
+
+
+/* placeOrder */
+/* Container */
+.address-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 25px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Heading */
+.address-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 22px;
+  color: #333;
+}
+
+/* Form fields */
+.address-form .MuiTextField-root {
+  margin-bottom: 15px;
+}
+
+/* Error messages */
+.MuiFormHelperText-root {
+  font-size: 13px !important;
+}
+
+/* Success / Error message after form submit */
+.address-message {
+  text-align: center;
+  font-size: 14px;
+  margin: 12px 0;
+  font-weight: 500;
+}
+
+.address-message::before {
+  content: "ℹ ";
+}
+
+/* Button */
+.address-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 32px;
+  border-radius: 8px;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* Optional hover effect */
+.address-btn:hover {
+  transform: scale(1.02);
+  transition: 0.2s ease-in-out;
+}
+.add-flex{
+  display: flex;
+  gap: 5px;
+}
+
+
+/* ordersucess */
+/* in your CSS file, e.g., PlaceOrder.css */
+.order-success {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #4caf50;
+  color: white;
+  padding: 20px 30px;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  z-index: 999;
+  opacity: 0;
+  animation: fadeInOut 3s forwards;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  10% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  90% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+}
+

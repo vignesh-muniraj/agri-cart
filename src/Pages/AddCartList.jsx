@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { AddCart } from "../Components/AddCart";
 import { API } from "./Global";
-
+import { IconButton } from "@mui/material";
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { useNavigate } from "react-router-dom";
 function AddCartList() {
   const [productsList, setProductsList] = useState([]);
   const user_id = localStorage.getItem("id"); // ✅ user_id from login
-
+    const navigate = useNavigate()
   // ✅ Fetch cart items for logged in user
   async function getProducts() {
     if (!user_id) {
@@ -95,6 +97,7 @@ function AddCartList() {
 
       {/* Right side - Flipkart style */}
       {productsList.length > 0 && (
+        <div>
         <div className="cart-right">
           <h4 className="price-title">PRICE DETAILS</h4>
           <hr />
@@ -121,8 +124,12 @@ function AddCartList() {
             <span>₹{finalAmount}</span>
           </div>
           <p className="saved">You will save ₹{totalSaved} on this order</p>
-        </div>
-      )}
+          </div>
+            <button className="proceed" onClick={()=>navigate("/PlaceOrder")}>
+            Proceed
+            </button>
+          </div>
+        )}
     </div>
   );
 }
