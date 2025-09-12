@@ -51,7 +51,10 @@ function Navbar({ totalItems }) {
           <Link to="/MyProducts">MyProducts</Link>
         </li>
         <li>
-          <Link to="/contact">Contact</Link>
+          <Link to="/MyOrders">MyOrders</Link>
+        </li>
+        <li>
+          <Link to="/OrdersTaken">OrdersTaken</Link>
         </li>
 
         {/* ✅ Badge shows total items (all quantities) */}

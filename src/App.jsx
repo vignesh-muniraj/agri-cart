@@ -14,6 +14,8 @@ import { AddCartList } from "./Pages/AddCartList";
 import { Login } from "./Pages/Login";
 import { Signup } from "./Pages/Signup";
 import { PlaceOrder } from "./Pages/PlaceOrder";
+import { MyOrders } from "./Pages/MyOrders";
+import { OrdersTaken } from "./Pages/OrdersTaken";
 
 function App() {
   return (
@@ -31,6 +33,8 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/MyProducts" element={<MyProducts />} />
         <Route path="/PlaceOrder" element={<PlaceOrder />} />
+        <Route path="/MyOrders" element={<MyOrders />} />
+        <Route path="/OrdersTaken" element={<OrdersTaken />} />
       </Routes>
       <Footer />
     </div>
