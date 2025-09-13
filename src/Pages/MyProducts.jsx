@@ -118,13 +118,13 @@ function MyProducts() {
   };
 
   return (
-    <div className="my-products">
+    <div className="my-products1">
       <h2>My Products</h2>
       {products.length === 0 ? (
         <p>No products added yet.</p>
       ) : (
         products.map((p) => (
-          <div key={p.id} className="product-card">
+          <div key={p.id} className="product-card1">
             <img src={p.poster} alt={p.name} width="150" />
             <h3>{p.name}</h3>
             <p>₹{p.price}</p>

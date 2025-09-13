@@ -6,6 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { ProfileMenu } from "./ProfileMenu";
 // Styled badge for cart count
 const StyledBadge = styled(Badge)(() => ({
   "& .MuiBadge-badge": {
@@ -45,25 +46,18 @@ function Navbar({ totalItems }) {
           <Link to="/ProductList">Products</Link>
         </li>
         <li>
-          <Link to="/sellerPage">Sell</Link>
+          <Link to="/sellerPage">StartSelling</Link>
         </li>
-        <li>
-          <Link to="/MyProducts">MyProducts</Link>
-        </li>
-        <li>
-          <Link to="/MyOrders">MyOrders</Link>
-        </li>
-        <li>
-          <Link to="/OrdersTaken">OrdersTaken</Link>
-        </li>
-
+        
+        
         {/* ✅ Badge shows total items (all quantities) */}
         <IconButton onClick={() => navigate("/AddCart")} aria-label="cart">
-          <StyledBadge badgeContent={0}>
-            <ShoppingCartIcon />
-          </StyledBadge>
+        <StyledBadge badgeContent={0}>
+        <ShoppingCartIcon />
+        </StyledBadge>
         </IconButton>
-        <div>
+        <ProfileMenu/>
+        {/*<div>
         {user_id ? (
           <IconButton onClick={handleLogout} aria-label="cart">
           <StyledBadge>
@@ -75,8 +69,7 @@ function Navbar({ totalItems }) {
           <AccountCircleIcon />
           </IconButton>
         )}
-        {/*<p>{user_name}</p>*/}
-        </div>
+        </div>*/}
       </ul>
     </nav>
   );

@@ -1085,19 +1085,59 @@ button,
 /* MyOrders */
 .order-history-container {
   display: flex;
-  flex-direction: column;  /* stack cards vertically */
-  align-items: center;     /* center horizontally */
-  justify-content: center; /* center vertically if height allows */
+  flex-direction: column;
+  align-items: center;
   padding: 20px;
-  min-height: 100vh;       /* optional, makes it full viewport height */
-  gap: 20px;               /* space between cards */
+  min-height: 100vh;
+  gap: 20px;
 }
 
 .order-card {
-  width: 500px;            /* fixed width for each card */
+  width: 500px;
   padding: 15px;
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  transition: 0.3s ease-in-out;
+}
+
+/* 🔹 Different background & border for each status */
+.status-pending {
+  border-left: 6px solid #f0ad4e;
+  background: #fff8e6;
+}
+
+.status-completed {
+  border-left: 6px solid #28a745;
+  background: #e9f9ee;
+}
+
+.status-cancelled {
+  border-left: 6px solid #dc3545;
+  background: #fdeaea;
+}
+
+/* 🔹 Status label (small colored badge) */
+.status-label {
+  padding: 3px 8px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-left: 8px;
+}
+
+.status-pending.status-label {
+  background: #f0ad4e;
+  color: white;
+}
+
+.status-completed.status-label {
+  background: #28a745;
+  color: white;
+}
+
+.status-cancelled.status-label {
+  background: #dc3545;
+  color: white;
 }
 
 .order-item {
@@ -1123,13 +1163,13 @@ button,
 
 
 /* ############################################################################################# */
-/* .my-products {
+.my-products1 {
   padding: 20px;
   max-width: 1000px;
   margin: 0 auto;
 }
 
-.product-card {
+.product-card1 {
   display: flex;
   gap: 30px;
   border: 1px solid #ddd;
@@ -1142,7 +1182,7 @@ button,
 
 .product-info {
   flex: 1;
-}*/
+}
 
 .product-info img {
   width: 120px;
@@ -1151,7 +1191,7 @@ button,
   border-radius: 5px;
   margin-bottom: 10px;
 }
-/*
+
 .product-info h3 {
   margin: 5px 0;
 }
@@ -1170,5 +1210,152 @@ button,
   padding: 10px;
   margin-bottom: 8px;
   background-color: #fff;
-} */
+}
 
+
+
+/* seller dash */
+.sell-container {
+  display: flex;
+  /* flex-direction: column; */
+  /* align-items: center; */
+  /* margin-top: 40px; */
+  font-family: Arial, sans-serif;
+}
+
+.sell-box {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  text-align: center;
+  width: 320px;
+}
+
+.sell-box h3 {
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.sell-box p {
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #666;
+}
+
+.sell-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.btn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.btn.primary {
+  background: #007bff;
+  color: white;
+}
+
+.btn.secondary {
+  background: #28a745;
+  color: white;
+}
+
+.btn:hover {
+  opacity: 0.85;
+}
+.orderstaken{
+  .orders-page {
+  max-width: 800px;
+  margin: 20px auto;
+  font-family: Arial, sans-serif;
+  padding: 10px;
+}
+
+.orders-page h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.no-orders {
+  text-align: center;
+  color: #666;
+}
+
+.order-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.order-card p {
+  margin: 6px 0;
+}
+
+.items-list {
+  margin-top: 12px;
+}
+
+.item-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.item-row img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.status-select {
+  margin-top: 6px;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #bbb;
+  font-size: 14px;
+}
+
+/* ✅ Status Badges */
+.status-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-badge.pending {
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+}
+
+.status-badge.completed {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.status-badge.cancelled {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+}

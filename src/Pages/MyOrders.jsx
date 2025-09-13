@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import {
   Card,
   CardContent,
-  Typography,
   CircularProgress,
   Button,
   Divider,
@@ -37,23 +36,52 @@ function MyOrders() {
     fetchOrders();
   }, [userId]);
 
+  // ✅ user-friendly labels
+  const getStatusLabel = (status) => {
+    switch (status) {
+      case "completed":
+        return "Delivered";
+      case "cancelled":
+        return "Cancelled";
+      default:
+        return "Pending";
+    }
+  };
+
+  const getStatusClass = (status) => {
+    switch (status) {
+      case "completed":
+        return "status-completed";
+      case "cancelled":
+        return "status-cancelled";
+      default:
+        return "status-pending";
+    }
+  };
+
   if (loading) return <CircularProgress sx={{ m: 4 }} />;
 
   return (
     <div className="order-history-container">
-      <Typography variant="h4" gutterBottom>
-        My Orders
-      </Typography>
+      <h2>My Orders</h2>
 
       {orders.length === 0 ? (
-        <Typography>No past orders found.</Typography>
+        <p>No past orders found.</p>
       ) : (
         orders.map((order) => (
-          <Card key={order.id} className="order-card">
+          <Card
+            key={order.id}
+            className={`order-card ${getStatusClass(order.status)}`}
+          >
             <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Order #{order.id} - {order.status.toUpperCase()}
-              </Typography>
+              <h3>
+                Order-id:  {order.id}
+                <span
+                  className={`status-label ${getStatusClass(order.status)}`}
+                >
+                  {getStatusLabel(order.status)}
+                </span>
+              </h3>
 
               <List dense>
                 {order.items.map((item) => (
@@ -81,10 +109,8 @@ function MyOrders() {
 
               <Divider className="divider" />
 
-              <Typography variant="subtitle1" className="order-total">
-                Total: ₹{order.total_price}
-              </Typography>
-              <Typography variant="body2" className="order-date">
+              <p className="order-total">Total: ₹{order.total_price}</p>
+              <p className="order-date">
                 Date:{" "}
                 {new Date(order.created_at + "Z").toLocaleString("en-IN", {
                   day: "2-digit",
@@ -95,7 +121,7 @@ function MyOrders() {
                   hour12: true,
                   timeZone: "Asia/Kolkata",
                 })}
-              </Typography>
+              </p>
             </CardContent>
           </Card>
         ))
@@ -111,4 +137,5 @@ function MyOrders() {
     </div>
   );
 }
+
 export { MyOrders };

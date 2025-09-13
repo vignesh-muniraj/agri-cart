@@ -1,6 +1,5 @@
-
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { object, string, number } from "yup";
 import TextField from "@mui/material/TextField";
@@ -8,7 +7,7 @@ import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import { API } from "./Global";
 
-// ✅ Validation schema
+// ✅ Validation schema for products
 const productSchema = object({
   name: string().required("Product name is required"),
   poster: string().url("Enter a valid image URL").required("Poster is required"),
@@ -20,7 +19,52 @@ const productSchema = object({
 function SellerPage() {
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  const [role, setRole] = useState(null); // buyer or seller
+  const [loading, setLoading] = useState(true);
+  const [aadhar, setAadhar] = useState("");
+  const userId = localStorage.getItem("id");
 
+  // ✅ Fetch current user role from backend
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await fetch(`${API}/users/${userId}`);
+        const data = await res.json();
+        setRole(data.seller_or_buyer);
+      } catch (err) {
+        console.error("Error fetching user role:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUser();
+  }, [userId]);
+
+  // ✅ Upgrade buyer to seller with Aadhaar
+  const handleUpgrade = async () => {
+    if (aadhar.length !== 12) {
+      alert("Enter a valid 12-digit Aadhaar number");
+      return;
+    }
+    try {
+      const res = await fetch(`${API}/users/${userId}/become-seller`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ aadhar_no: aadhar }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        alert("Upgraded to Seller ✅");
+        setRole("seller");
+      } else {
+        alert(data.error || "Failed to upgrade");
+      }
+    } catch (err) {
+      console.error("Upgrade error:", err);
+    }
+  };
+
+  // ✅ Formik for products (only for sellers)
   const { handleSubmit, values, handleChange, handleBlur, touched, errors } =
     useFormik({
       initialValues: {
@@ -32,8 +76,7 @@ function SellerPage() {
       },
       validationSchema: productSchema,
       onSubmit: (product) => {
-        // ✅ also send user_id from localStorage
-        const user_id = localStorage.getItem("id");  
+        const user_id = localStorage.getItem("id");
         addProduct({ ...product, user_id });
       },
     });
@@ -48,7 +91,7 @@ function SellerPage() {
       });
       const data = await response.json();
       if (response.ok) {
-        navigate("/productList");
+        navigate("/myproducts");
       } else {
         setError(data.error || "Failed to add product");
       }
@@ -58,104 +101,159 @@ function SellerPage() {
     }
   };
 
-  return (
-    <div className="sell-container">
-      <form onSubmit={handleSubmit} className="sell-form">
-        <h2>Sell Your Product</h2>
+  if (loading) return <p>Loading...</p>;
 
+  // ✅ Buyer View (Aadhaar input only)
+  if (role === "buyer") {
+    return (
+      <div className="upgrade-container">
+        <h2>Become a Seller</h2>
+        <p>Enter your Aadhaar number to upgrade your account.</p>
         <TextField
           fullWidth
           margin="normal"
-          label="Product Name"
-          name="name"
-          value={values.name}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          color="success"
-          error={touched.name && Boolean(errors.name)}
-          helperText={touched.name && errors.name}
+          label="Aadhaar Number"
+          value={aadhar}
+          onChange={(e) => setAadhar(e.target.value)}
+          inputProps={{ maxLength: 12 }}
         />
-
-        <TextField
-          fullWidth
-          margin="normal"
-          label="Poster URL"
-          name="poster"
-          value={values.poster}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          color="success"
-          error={touched.poster && Boolean(errors.poster)}
-          helperText={touched.poster && errors.poster}
-        />
-
-        <TextField
-          fullWidth
-          margin="normal"
-          label="Price (₹)"
-          name="price"
-          type="number"
-          value={values.price}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          color="success"
-          error={touched.price && Boolean(errors.price)}
-          helperText={touched.price && errors.price}
-        />
-
-        <TextField
-          select
-          fullWidth
-          margin="normal"
-          label="Quantity"
-          name="quantity"
-          value={values.quantity}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          color="success"
-          error={touched.quantity && Boolean(errors.quantity)}
-          helperText={touched.quantity && errors.quantity}
-        >
-          <MenuItem value="500g">500g</MenuItem>
-          <MenuItem value="1kg">1kg</MenuItem>
-          <MenuItem value="2kg">2kg</MenuItem>
-        </TextField>
-
-        <TextField
-          select
-          fullWidth
-          margin="normal"
-          label="Category"
-          name="category"
-          value={values.category}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          color="success"
-          error={touched.category && Boolean(errors.category)}
-          helperText={touched.category && errors.category}
-        >
-          <MenuItem value="Exotic Fruits">Exotic Fruits</MenuItem>
-          <MenuItem value="Exotic Vegetables">Exotic Vegetables</MenuItem>
-          <MenuItem value="Fresh Fruits">Fresh Fruits</MenuItem>
-          <MenuItem value="Fresh Vegetables">Fresh Vegetables</MenuItem>
-          <MenuItem value="Leaf & Herbs">Leaf & Herbs</MenuItem>
-          <MenuItem value="Summer Deals">Summer Deals</MenuItem>
-        </TextField>
-
-        {error && <p className="error-text">{error}</p>}
-
         <Button
-          type="submit"
           variant="contained"
           color="success"
-          fullWidth
-          sx={{ marginTop: 2 }}
+          onClick={handleUpgrade}
+          sx={{ mt: 2 }}
         >
-          Submit Product
+          Upgrade to Seller
         </Button>
-      </form>
-    </div>
-  );
+      </div>
+    );
+  }
+
+  // ✅ Seller View (Product form + dashboard)
+  if (role === "seller") {
+    return (
+      <div className="sell-container">
+        <div className="sell-form-container">
+          <form onSubmit={handleSubmit} className="sell-form">
+            <h2>Sell Your Product</h2>
+
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Product Name"
+              name="name"
+              value={values.name}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              color="success"
+              error={touched.name && Boolean(errors.name)}
+              helperText={touched.name && errors.name}
+            />
+
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Poster URL"
+              name="poster"
+              value={values.poster}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              color="success"
+              error={touched.poster && Boolean(errors.poster)}
+              helperText={touched.poster && errors.poster}
+            />
+
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Price (₹)"
+              name="price"
+              type="number"
+              value={values.price}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              color="success"
+              error={touched.price && Boolean(errors.price)}
+              helperText={touched.price && errors.price}
+            />
+
+            <TextField
+              select
+              fullWidth
+              margin="normal"
+              label="Quantity"
+              name="quantity"
+              value={values.quantity}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              color="success"
+              error={touched.quantity && Boolean(errors.quantity)}
+              helperText={touched.quantity && errors.quantity}
+            >
+              <MenuItem value="500g">500g</MenuItem>
+              <MenuItem value="1kg">1kg</MenuItem>
+              <MenuItem value="2kg">2kg</MenuItem>
+            </TextField>
+
+            <TextField
+              select
+              fullWidth
+              margin="normal"
+              label="Category"
+              name="category"
+              value={values.category}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              color="success"
+              error={touched.category && Boolean(errors.category)}
+              helperText={touched.category && errors.category}
+            >
+              <MenuItem value="Exotic Fruits">Exotic Fruits</MenuItem>
+              <MenuItem value="Exotic Vegetables">Exotic Vegetables</MenuItem>
+              <MenuItem value="Fresh Fruits">Fresh Fruits</MenuItem>
+              <MenuItem value="Fresh Vegetables">Fresh Vegetables</MenuItem>
+              <MenuItem value="Leaf & Herbs">Leaf & Herbs</MenuItem>
+              <MenuItem value="Summer Deals">Summer Deals</MenuItem>
+            </TextField>
+
+            {error && <p className="error-text">{error}</p>}
+
+            <Button
+              type="submit"
+              variant="contained"
+              color="success"
+              fullWidth
+              sx={{ marginTop: 2 }}
+            >
+              Submit Product
+            </Button>
+          </form>
+        </div>
+
+        <div className="sell-dashboard">
+          <h2>My Seller Dashboard</h2>
+          <h3>Manage Your Store</h3>
+          <p>Quick access to your products and orders</p>
+          <div className="sell-actions">
+            <button
+              className="btn primary"
+              onClick={() => navigate("/myproducts")}
+            >
+              Live Products
+            </button>
+            <button
+              className="btn secondary"
+              onClick={() => navigate("/OrdersTaken")}
+            >
+              Orders Taken
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return <p>Unable to determine user role</p>;
 }
 
 export { SellerPage };
