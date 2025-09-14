@@ -4,7 +4,9 @@ import { useNavigate, Link } from "react-router-dom";
 import { object, string } from "yup";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { API } from "./Global";  
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
+import { API } from "./Global";
 
 // ✅ Validation schema
 const loginSchema = object({
@@ -17,6 +19,7 @@ const loginSchema = object({
 export function Login() {
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false); // ✅ loading state
 
   const { handleSubmit, values, handleChange, handleBlur, touched, errors } =
     useFormik({
@@ -34,6 +37,7 @@ export function Login() {
   // ✅ Login API call
   const loginUser = async (user) => {
     try {
+      setLoading(true); // show loader
       const response = await fetch(`${API}/users/login`, {
         method: "POST",
         body: JSON.stringify(user),
@@ -41,10 +45,10 @@ export function Login() {
       });
       const data = await response.json();
       if (data?.token) {
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("id", data.user.id);
-      localStorage.setItem("username", data.user.username);
-      localStorage.setItem("role", data.user.role); // optional
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("id", data.user.id);
+        localStorage.setItem("username", data.user.username);
+        localStorage.setItem("role", data.user.role); // optional
         navigate("/home");
       } else {
         setError(data.error || "Login failed");
@@ -52,6 +56,8 @@ export function Login() {
     } catch (error) {
       console.error("Login error:", error);
       setError("Something went wrong, please try again!");
+    } finally {
+      setLoading(false); // hide loader
     }
   };
 
@@ -68,7 +74,7 @@ export function Login() {
           value={values.username}
           onChange={handleChange}
           onBlur={handleBlur}
-           color="success"
+          color="success"
           error={touched.username && Boolean(errors.username)}
           helperText={touched.username && errors.username}
         />
@@ -89,9 +95,21 @@ export function Login() {
 
         {error && <p className="error-text">{error}</p>}
 
-        <button type="submit" className="signup-btn">
-          Login
-        </button>
+        {/* ✅ Login button with loader */}
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="success"
+          disabled={loading} // disable while loading
+          sx={{ mt: 2 }}
+        >
+          {loading ? (
+            <CircularProgress size={24} color="inherit" />
+          ) : (
+            "Login"
+          )}
+        </Button>
 
         <p className="signup-link">
           Don’t have an account? <Link to="/Signup">Signup</Link>

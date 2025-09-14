@@ -4,6 +4,7 @@ import { object, string } from "yup";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
+import CircularProgress from "@mui/material/CircularProgress";
 import { API } from "./Global";
 import { useNavigate } from "react-router-dom";
 
@@ -18,7 +19,6 @@ const addressSchema = object({
   address: string().required("Address is required"),
   city: string().required("City/District/Town is required"),
   state: string().required("State is required"),
-  // ✅ locality, landmark, altPhone are optional (no .required())
   locality: string(),
   landmark: string(),
   altPhone: string()
@@ -28,7 +28,8 @@ const addressSchema = object({
 });
 
 function PlaceOrder() {
-  const [success, setSuccess] = useState(false); // ✅ separate success state
+  const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false); // ✅ loading state
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
@@ -52,6 +53,7 @@ function PlaceOrder() {
     });
 
   const placeOrder = async (formData) => {
+    setLoading(true); // show loader
     try {
       const token = localStorage.getItem("token");
       const userId = localStorage.getItem("id");
@@ -66,27 +68,43 @@ function PlaceOrder() {
       });
 
       const data = await response.json();
-      console.log("Response status:", response.status);
-      console.log("Response data:", data);
       if (response.ok) {
         setSuccess(true);
         setMessage("Order placed successfully!");
-        setTimeout(() => navigate("/Home"), 10000);
+
+        setTimeout(() => {
+          setSuccess(false);
+          navigate("/Home");
+        }, 8000); // show success for 8s
       } else {
         setMessage(data.error ? data.error : "❌ Failed to place order");
       }
-      console.log(success)
     } catch (error) {
       console.error("Checkout error:", error);
       setMessage("❌ Something went wrong. Try again!");
+    } finally {
+      setLoading(false); // hide loader
     }
   };
 
   return (
     <div className="success-msg">
-      {success ? (
-        <div className="order-success ">🎉 <h1>Order Placed</h1></div>
-      ) : (
+      {loading && (
+        <div
+          className="loading"
+          style={{ display: "flex", justifyContent: "center", marginTop: 40 }}
+        >
+          <CircularProgress color="success" />
+        </div>
+      )}
+
+      {success && !loading && (
+        <div className="order-success">
+          🎉 <h1>{message}</h1>
+        </div>
+      )}
+
+      {!success && !loading && (
         <div className="address-container">
           <form onSubmit={handleSubmit} className="address-form">
             <h2>Shipping Address</h2>

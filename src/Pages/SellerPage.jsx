@@ -5,13 +5,17 @@ import { object, string, number } from "yup";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
+import CircularProgress from "@mui/material/CircularProgress";
 import { API } from "./Global";
 
-// ✅ Validation schema for products
 const productSchema = object({
   name: string().required("Product name is required"),
-  poster: string().url("Enter a valid image URL").required("Poster is required"),
-  price: number().positive("Price must be positive").required("Price is required"),
+  poster: string()
+    .url("Enter a valid image URL")
+    .required("Poster is required"),
+  price: number()
+    .positive("Price must be positive")
+    .required("Price is required"),
   category: string().required("Category is required"),
   quantity: string().required("Quantity is required"),
 });
@@ -19,20 +23,22 @@ const productSchema = object({
 function SellerPage() {
   const navigate = useNavigate();
   const [error, setError] = useState("");
-  const [role, setRole] = useState(null); // buyer or seller
+  const [role, setRole] = useState(null);
   const [loading, setLoading] = useState(true);
   const [aadhar, setAadhar] = useState("");
   const userId = localStorage.getItem("id");
 
-  // ✅ Fetch current user role from backend
+  // ✅ Fetch current user role
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const res = await fetch(`${API}/users/${userId}`);
+        if (!res.ok) throw new Error("User not found");
         const data = await res.json();
         setRole(data.seller_or_buyer);
       } catch (err) {
         console.error("Error fetching user role:", err);
+        setRole("buyer"); // fallback
       } finally {
         setLoading(false);
       }
@@ -40,14 +46,14 @@ function SellerPage() {
     fetchUser();
   }, [userId]);
 
-  // ✅ Upgrade buyer to seller with Aadhaar
+  // ✅ Upgrade buyer to seller
   const handleUpgrade = async () => {
-    if (aadhar.length !== 12) {
+    if (aadhar.length !== 12 || !/^\d{12}$/.test(aadhar)) {
       alert("Enter a valid 12-digit Aadhaar number");
       return;
     }
     try {
-      const res = await fetch(`${API}/users/${userId}/become-seller`, {
+      const res = await fetch(`${API}/users/${userId}/becomeseller`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ aadhar_no: aadhar }),
@@ -61,10 +67,11 @@ function SellerPage() {
       }
     } catch (err) {
       console.error("Upgrade error:", err);
+      alert("Something went wrong. Try again!");
     }
   };
 
-  // ✅ Formik for products (only for sellers)
+  // ✅ Formik for product submission
   const { handleSubmit, values, handleChange, handleBlur, touched, errors } =
     useFormik({
       initialValues: {
@@ -75,35 +82,39 @@ function SellerPage() {
         quantity: "",
       },
       validationSchema: productSchema,
-      onSubmit: (product) => {
-        const user_id = localStorage.getItem("id");
-        addProduct({ ...product, user_id });
-      },
+      onSubmit: (product) => addProduct({ ...product, user_id: userId }),
     });
 
-  // ✅ API call to save product
   const addProduct = async (product) => {
     try {
-      const response = await fetch(`${API}/products`, {
+      const res = await fetch(`${API}/products`, {
         method: "POST",
-        body: JSON.stringify(product),
         headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(product),
       });
-      const data = await response.json();
-      if (response.ok) {
+      const data = await res.json();
+      if (res.ok) {
         navigate("/myproducts");
       } else {
         setError(data.error || "Failed to add product");
       }
-    } catch (error) {
-      console.error("Add product error:", error);
+    } catch (err) {
+      console.error("Add product error:", err);
       setError("Something went wrong, please try again!");
     }
   };
 
-  if (loading) return <p>Loading...</p>;
+  // ✅ Loading spinner
+  if (loading) {
+    return (
+      <div className="loading">
+        <CircularProgress color="success" />
+        <p>Loading seller data...</p>
+      </div>
+    );
+  }
 
-  // ✅ Buyer View (Aadhaar input only)
+  // ✅ Buyer → show upgrade form
   if (role === "buyer") {
     return (
       <div className="upgrade-container">
@@ -129,7 +140,7 @@ function SellerPage() {
     );
   }
 
-  // ✅ Seller View (Product form + dashboard)
+  // ✅ Seller → show product form + dashboard
   if (role === "seller") {
     return (
       <div className="sell-container">
@@ -223,7 +234,7 @@ function SellerPage() {
               variant="contained"
               color="success"
               fullWidth
-              sx={{ marginTop: 2 }}
+              sx={{ mt: 2 }}
             >
               Submit Product
             </Button>

@@ -1,29 +1,37 @@
 import React, { useState, useEffect } from "react";
 import { AddCart } from "../Components/AddCart";
 import { API } from "./Global";
-import { IconButton } from "@mui/material";
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { useNavigate } from "react-router-dom";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
+
 function AddCartList() {
   const [productsList, setProductsList] = useState([]);
-  const user_id = localStorage.getItem("id"); // ✅ user_id from login
-    const navigate = useNavigate()
+  const [loading, setLoading] = useState(true); // ✅ loader state
+  const user_id = localStorage.getItem("id");
+  const navigate = useNavigate();
+
   // ✅ Fetch cart items for logged in user
   async function getProducts() {
     if (!user_id) {
       console.log("⚠️ User not logged in");
+      setLoading(false);
       return;
     }
     try {
       const response = await fetch(`${API}/cart/${user_id}`);
       const data = await response.json();
-      setProductsList(data.map((item) => ({ ...item, count: item.count || 1 })));
+      setProductsList(
+        data.map((item) => ({ ...item, count: item.count || 1 }))
+      );
     } catch (error) {
       console.log("Oops:", error);
+    } finally {
+      setLoading(false); // ✅ stop loader
     }
   }
 
-  // ✅ Delete cart item from backend
+  // ✅ Delete cart item
   async function handleDelete(id) {
     try {
       await fetch(`${API}/cart/${id}`, {
@@ -35,9 +43,8 @@ function AddCartList() {
     }
   }
 
-  // ✅ Update quantity (PUT request to backend)
+  // ✅ Update quantity
   async function handleQuantityChange(id, newCount) {
-    console.log("🔥🔥🔥🔥🔥🔥"+newCount)
     try {
       await fetch(`${API}/cart/${id}`, {
         method: "PUT",
@@ -66,16 +73,31 @@ function AddCartList() {
     0
   );
   const totalPrice = productsList.reduce(
-    (sum, item) => sum + (parseFloat(item.price) || 0) * (parseInt(item.count) || 1),
+    (sum, item) =>
+      sum + (parseFloat(item.price) || 0) * (parseInt(item.count) || 1),
     0
   );
-
-  // Fake discount & coupon for UI
   const discount = 0;
   const coupon = 0;
   const deliveryFee = 0;
   const finalAmount = totalPrice - discount - coupon + deliveryFee;
   const totalSaved = discount + coupon;
+
+  // ✅ Show loader while fetching
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "80vh",
+        }}
+      >
+        <CircularProgress color="success" size={60} />
+      </Box>
+    );
+  }
 
   return (
     <div className="cart-container">
@@ -95,41 +117,41 @@ function AddCartList() {
         )}
       </div>
 
-      {/* Right side - Flipkart style */}
+      {/* Right side */}
       {productsList.length > 0 && (
         <div>
-        <div className="cart-right">
-          <h4 className="price-title">PRICE DETAILS</h4>
-          <hr />
+          <div className="cart-right">
+            <h4 className="price-title">PRICE DETAILS</h4>
+            <hr />
 
-          <div className="price-row">
-            <span>Price ({totalItems} items)</span>
-            <span>₹{totalPrice}</span>
+            <div className="price-row">
+              <span>Price ({totalItems} items)</span>
+              <span>₹{totalPrice}</span>
+            </div>
+            <div className="price-row green">
+              <span>Discount</span>
+              <span>- ₹{discount}</span>
+            </div>
+            <div className="price-row green">
+              <span>Coupons</span>
+              <span>- ₹{coupon}</span>
+            </div>
+            <div className="price-row">
+              <span>Platform Fee</span>
+              <span>₹{deliveryFee}</span>
+            </div>
+            <hr />
+            <div className="price-row total">
+              <span>Total Amount</span>
+              <span>₹{finalAmount}</span>
+            </div>
+            <p className="saved">You will save ₹{totalSaved} on this order</p>
           </div>
-          <div className="price-row green">
-            <span>Discount</span>
-            <span>- ₹{discount}</span>
-          </div>
-          <div className="price-row green">
-            <span>Coupons</span>
-            <span>- ₹{coupon}</span>
-          </div>
-          <div className="price-row">
-            <span>Platform Fee</span>
-            <span>₹{deliveryFee}</span>
-          </div>
-          <hr />
-          <div className="price-row total">
-            <span>Total Amount</span>
-            <span>₹{finalAmount}</span>
-          </div>
-          <p className="saved">You will save ₹{totalSaved} on this order</p>
-          </div>
-            <button className="proceed" onClick={()=>navigate("/PlaceOrder")}>
+          <button className="proceed" onClick={() => navigate("/PlaceOrder")}>
             Proceed
-            </button>
-          </div>
-        )}
+          </button>
+        </div>
+      )}
     </div>
   );
 }

@@ -12,6 +12,7 @@ import {
   ListItemText,
   ListItemAvatar,
   Avatar,
+  Box,
 } from "@mui/material";
 
 function MyOrders() {
@@ -59,7 +60,21 @@ function MyOrders() {
     }
   };
 
-  if (loading) return <CircularProgress sx={{ m: 4 }} />;
+  // ✅ Full-screen loader (green)
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "80vh",
+        }}
+      >
+        <CircularProgress color="success" size={60} />
+      </Box>
+    );
+  }
 
   return (
     <div className="order-history-container">
@@ -75,7 +90,7 @@ function MyOrders() {
           >
             <CardContent>
               <h3>
-                Order-id:  {order.id}
+                Order-id: {order.id}
                 <span
                   className={`status-label ${getStatusClass(order.status)}`}
                 >
@@ -128,7 +143,6 @@ function MyOrders() {
       )}
 
       <Button
-        variant="contained"
         className="back-btn"
         onClick={() => navigate("/")}
       >

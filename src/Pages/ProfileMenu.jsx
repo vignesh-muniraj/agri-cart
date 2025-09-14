@@ -48,10 +48,12 @@ function ProfileMenu() {
         }}
       >
         {userId ? (
-             <div>
+          <div>
             <MenuItem onClick={handleOrders}>My Orders</MenuItem>
             <Divider />
-            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            <MenuItem onClick={handleLogout} style={{ "color": "red" }}>
+              Logout
+            </MenuItem>
           </div>
         ) : (
           <MenuItem onClick={handleLogin}>Login</MenuItem>
