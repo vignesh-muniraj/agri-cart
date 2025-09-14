@@ -17,6 +17,7 @@ import { PlaceOrder } from "./Pages/PlaceOrder";
 import { MyOrders } from "./Pages/MyOrders";
 import { OrdersTaken } from "./Pages/OrdersTaken";
 import { AdminPage } from "./Pages/AdminPage";
+import { EditProductPage } from "./Pages/EditProductPage";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
         <Route path="/MyOrders" element={<MyOrders />} />
         <Route path="/OrdersTaken" element={<OrdersTaken />} />
         <Route path="/AdminPage" element={<AdminPage />} />
+        <Route path="/EditProductPage" element={<EditProductPage />} />
       </Routes>
       <Footer />
     </div>

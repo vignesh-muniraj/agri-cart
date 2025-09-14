@@ -21,14 +21,14 @@ const StyledBadge = styled(Badge)(() => ({
 
 function Navbar({ totalItems }) {
   const navigate = useNavigate();
-  
+
   const user_id = localStorage.getItem("id");
   const user_name = localStorage.getItem("username");
   const handleLogout = () => {
-  localStorage.clear();      
-  // setUser({ id: null, username: null });  
-  navigate("/Login");        
-};
+    localStorage.clear();
+    // setUser({ id: null, username: null });
+    navigate("/Login");
+  };
 
   return (
     <nav>
@@ -48,15 +48,17 @@ function Navbar({ totalItems }) {
         <li>
           <Link to="/sellerPage">StartSelling</Link>
         </li>
-        
-        
+
         {/* ✅ Badge shows total items (all quantities) */}
         <IconButton onClick={() => navigate("/AddCart")} aria-label="cart">
-        <StyledBadge badgeContent={0}>
-        <ShoppingCartIcon />
-        </StyledBadge>
+          <StyledBadge badgeContent={0}>
+            <ShoppingCartIcon />
+          </StyledBadge>
         </IconButton>
-        <ProfileMenu/>
+        <div className="username">
+          <p>{user_name ? user_name.toLocaleUpperCase() : " "}</p>
+          <ProfileMenu />
+        </div>
         {/*<div>
         {user_id ? (
           <IconButton onClick={handleLogout} aria-label="cart">

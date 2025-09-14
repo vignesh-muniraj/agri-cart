@@ -1,12 +1,13 @@
 import React from "react";
 import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 import { IconButton } from "@mui/material";
-
+import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
 function Product({ product, addCart, onDelete }) {
   const role = localStorage.getItem("role");
+  const status = product.status;
   return (
     <div className="product-card">
-      <div className="offer-badge">Brand</div>
+      {/*<div className="offer-badge">Brand</div>*/}
       <img src={product.poster} alt={product.name} className="product-image" />
 
       <h3 className="product-title">{product.name}</h3>
@@ -17,9 +18,10 @@ function Product({ product, addCart, onDelete }) {
           {/* <span className="old-price">{"₹" + product.old_price}</span> */}
           <span className="new-price">{"₹" + product.price}</span>
         </div>
-        {role == "ADMIN" ? (
-          <IconButton onClick={() => onDelete(product.id)} color="error">
-            <RemoveShoppingCartIcon />
+        {status == "inactive" ? (
+          <IconButton className="out-of-stock">
+          <p>out of stock</p>
+            <ProductionQuantityLimitsIcon />
           </IconButton>
         ) : (
           <button className="add-btn" onClick={() => addCart(product)}>

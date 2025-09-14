@@ -1060,21 +1060,11 @@ button,
 /* in your CSS file, e.g., PlaceOrder.css */
 
 .order-success {
+  display: flex;
+  place-content: center;
+height: 40%;
+width: 50%;
 
-  position: fixed;
-  /* height: 100vh;   */
-  top: 30%;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #4caf50;
-  color: white;
-  padding: 25px 40px;
-  border-radius: 12px;
-  font-size: 22px;
-  font-weight: bold;
-  z-index: 9999;
-  text-align: center;
-  animation: popIn 0.6s ease forwards; /* ✅ animate in only */
 }
 
 @keyframes popIn {
@@ -1171,21 +1161,27 @@ button,
 
 
 /* ############################################################################################# */
-.my-products1 {
-  padding: 20px;
-  max-width: 1000px;
-  margin: 0 auto;
-}
 
-.product-card1 {
-  display: flex;
-  gap: 30px;
-  border: 1px solid #ddd;
+
+
+
+.my-products1 {
+ 
+  background: #fff;
   border-radius: 8px;
-  padding: 15px;
-  margin-bottom: 20px;
-  background-color: #fafafa;
-  align-items: flex-start;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  height: fit-content;
+  margin: 0 auto;
+   max-width: 1000px;
+  }
+  
+  .product-card1 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap:15px;
+    margin-bottom: 25px;
+    align-items: center;
 }
 
 .product-info {
@@ -1357,10 +1353,12 @@ button,
 /* orderstaken */
 .orderstaken{
   .orders-page {
-  max-width: 800px;
-  margin: 20px auto;
+    display: flex;
+  max-width: 1000px;
+  margin: 0 auto;
   font-family: Arial, sans-serif;
   padding: 10px;
+  gap: 20px;
 }
 
 .orders-page h2 {
@@ -1373,8 +1371,8 @@ button,
   color: #666;
 }
 
-.order-card {
-  background: #fff;
+.order-taken-card {
+  background: white;
   border: 1px solid #ddd;
   border-radius: 12px;
   padding: 16px;
@@ -1382,10 +1380,14 @@ button,
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
-.order-card p {
+.order-taken-card p {
   margin: 6px 0;
 }
-
+.order-taken-drop{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 .items-list {
   margin-top: 12px;
 }
@@ -1412,7 +1414,17 @@ button,
   border: 1px solid #bbb;
   font-size: 14px;
 }
+.order-summary{
+  padding: 3px;
+  margin: 1px;
+    background: white;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 
+}
 /* ✅ Status Badges */
 .status-badge {
   display: inline-block;
@@ -1492,3 +1504,39 @@ button,
 .delete-btn:hover {
   background-color: #c0392b;
 }
+
+
+/* out-of-stock */
+.out-of-stock {
+  display: flex;             
+  align-items: center;
+  justify-content: center;
+  gap: 5px;                   
+  padding: 5px 10px;
+  background-color: #f44336;  
+  color: white;               
+  border-radius: 5px;         
+  font-size: 14px;
+  font-weight: 500;
+  cursor: not-allowed;        
+  border: none;
+  pointer-events: none;       
+}
+
+.out-of-stock p {
+  margin: 0;    
+  font-size: 16px;           
+}
+/* nav{ */
+.username{
+  display: flex;
+  align-items: center;
+  
+  p{
+  padding: 2px;
+  /* margin: 1px 1px 1px 1px; */
+  color: #00000081;
+  }
+  
+}
+/* } */

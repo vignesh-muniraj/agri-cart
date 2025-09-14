@@ -142,10 +142,7 @@ function MyOrders() {
         ))
       )}
 
-      <Button
-        className="back-btn"
-        onClick={() => navigate("/")}
-      >
+      <Button className="back-btn" onClick={() => navigate("/")}>
         Back to Shop
       </Button>
     </div>

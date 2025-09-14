@@ -7,6 +7,7 @@ import MenuItem from "@mui/material/MenuItem";
 import CircularProgress from "@mui/material/CircularProgress";
 import { API } from "./Global";
 import { useNavigate } from "react-router-dom";
+import Alert from "@mui/material/Alert";
 
 const addressSchema = object({
   name: string().required("Name is required"),
@@ -75,7 +76,7 @@ function PlaceOrder() {
         setTimeout(() => {
           setSuccess(false);
           navigate("/Home");
-        }, 8000); // show success for 8s
+        }, 4000);
       } else {
         setMessage(data.error ? data.error : "❌ Failed to place order");
       }
@@ -100,7 +101,18 @@ function PlaceOrder() {
 
       {success && !loading && (
         <div className="order-success">
-          🎉 <h1>{message}</h1>
+          <Alert
+            severity="success"
+            sx={{
+              fontSize: "1.2rem",
+              padding: "16px 24px",
+              "& .MuiAlert-icon": {
+                fontSize: "2rem",
+              },
+            }}
+          >
+            This is a larger success Alert.
+          </Alert>
         </div>
       )}
 

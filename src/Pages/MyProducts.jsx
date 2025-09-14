@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 function MyProducts() {
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);   // ✅ loader state
+  const [loading, setLoading] = useState(true); // ✅ loader state
   const [deletingId, setDeletingId] = useState(null); // ✅ track which product is deleting
   const user_id = localStorage.getItem("id");
   const navigate = useNavigate();
@@ -29,23 +29,30 @@ function MyProducts() {
     fetchProducts();
   }, []);
 
-  const deleteProduct = async (id) => {
+  const markProductInactive = async (id, currentStatus) => {
     try {
-      setDeletingId(id); // show loader on that product’s delete button
+      setDeletingId(id);
+
+      // Toggle status
+      const newStatus = currentStatus === "active" ? "inactive" : "active";
+
       const response = await fetch(`${API}/products/${id}`, {
-        method: "DELETE",
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus }),
       });
+
       if (response.ok) fetchProducts();
     } catch (error) {
-      console.error("Delete error:", error);
+      console.error("Update status error:", error);
     } finally {
       setDeletingId(null);
     }
   };
 
-  const editProduct = (product) => {
-    navigate("/editProduct", { state: { product } });
-  };
+ const editProduct = (product) => {
+  navigate("/EditProductPage", { state: { product } });
+};
 
   // ✅ Show loader while fetching products
   if (loading) {
@@ -71,31 +78,42 @@ function MyProducts() {
       ) : (
         products.map((p) => (
           <div key={p.id} className="product-card1">
-            <img src={p.poster} alt={p.name} width="150" />
-            <h3>{p.name}</h3>
-            <p>₹{p.price}</p>
-            <p>Qty: {p.quantity}</p>
-            <p>Category: {p.category}</p>
+            <div>
+              <img src={p.poster} alt={p.name} width="150" />
+            </div>
+            <div>
+              <h3>{p.name}</h3>
+              <p>Category: {p.category}</p>
+            </div>
+            <div>
+              <p>₹{p.price}</p>
+              <p>Qty: {p.quantity}</p>
+            </div>
+            <div>
             <Button
               variant="contained"
               color="primary"
               onClick={() => editProduct(p)}
-              sx={{ marginRight: 1 }}
+              sx={{ height:40,marginRight:5}}
             >
               Edit
             </Button>
             <Button
               variant="contained"
-              color="error"
-              onClick={() => deleteProduct(p.id)}
-              disabled={deletingId === p.id} // disable while deleting
+                sx={{ height:40}}
+              color={p.status === "active" ? "error" : "success"} // red if active, green if inactive
+              onClick={() => markProductInactive(p.id, p.status)}
+              disabled={deletingId === p.id}
             >
               {deletingId === p.id ? (
                 <CircularProgress size={20} color="inherit" />
+              ) : p.status === "active" ? (
+                " Inactive"
               ) : (
-                "Delete"
+                "Active"
               )}
             </Button>
+            </div>
           </div>
         ))
       )}
