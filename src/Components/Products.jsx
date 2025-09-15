@@ -8,6 +8,7 @@ function Product({ product, addCart, onDelete }) {
   return (
     <div className="product-card">
       {/*<div className="offer-badge">Brand</div>*/}
+      <p>{status}</p>
       <img src={product.poster} alt={product.name} className="product-image" />
 
       <h3 className="product-title">{product.name}</h3>

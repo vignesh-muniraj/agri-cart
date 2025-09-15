@@ -111,7 +111,7 @@ function PlaceOrder() {
               },
             }}
           >
-            This is a larger success Alert.
+            Order placed successfully!!
           </Alert>
         </div>
       )}
@@ -183,9 +183,9 @@ function PlaceOrder() {
               <TextField
                 fullWidth
                 margin="normal"
-                label="City/District/Town"
+                label="District"
                 name="city"
-                value={values.city}
+                value={"Krishnagiri"}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 error={touched.city && Boolean(errors.city)}
@@ -208,9 +208,6 @@ function PlaceOrder() {
               >
                 <MenuItem value="">-- Select State --</MenuItem>
                 <MenuItem value="Tamil Nadu">Tamil Nadu</MenuItem>
-                <MenuItem value="Karnataka">Karnataka</MenuItem>
-                <MenuItem value="Kerala">Kerala</MenuItem>
-                <MenuItem value="Maharashtra">Maharashtra</MenuItem>
               </TextField>
 
               <TextField

@@ -6,6 +6,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import CircularProgress from "@mui/material/CircularProgress";
+import InventoryIcon from "@mui/icons-material/Inventory";
 import { API } from "./Global";
 
 const productSchema = object({
@@ -23,7 +24,7 @@ const productSchema = object({
 function SellerPage() {
   const navigate = useNavigate();
   const [error, setError] = useState("");
-  const [role, setRole] = useState(null);
+  const [seller_or_buyer, setSeller_or_buyer] = useState(null);
   const [loading, setLoading] = useState(true);
   const [aadhar, setAadhar] = useState("");
   const userId = localStorage.getItem("id");
@@ -35,10 +36,10 @@ function SellerPage() {
         const res = await fetch(`${API}/users/${userId}`);
         if (!res.ok) throw new Error("User not found");
         const data = await res.json();
-        setRole(data.seller_or_buyer);
+        setSeller_or_buyer(data.seller_or_buyer);
       } catch (err) {
         console.error("Error fetching user role:", err);
-        setRole("buyer"); // fallback
+        setSeller_or_buyer("buyer"); // fallback
       } finally {
         setLoading(false);
       }
@@ -61,7 +62,7 @@ function SellerPage() {
       const data = await res.json();
       if (res.ok) {
         alert("Upgraded to Seller ✅");
-        setRole("seller");
+        setSeller_or_buyer("seller");
       } else {
         alert(data.error || "Failed to upgrade");
       }
@@ -115,7 +116,7 @@ function SellerPage() {
   }
 
   // ✅ Buyer → show upgrade form
-  if (role === "buyer") {
+  if (seller_or_buyer === "buyer") {
     return (
       <div className="upgrade-container">
         <h2>Become a Seller</h2>
@@ -141,9 +142,17 @@ function SellerPage() {
   }
 
   // ✅ Seller → show product form + dashboard
-  if (role === "seller") {
+  if (seller_or_buyer === "seller") {
     return (
-      <div className="sell-container">
+      <div className="sell-container" 
+               style={{
+    backgroundImage: "url('https://cdn.zeptonow.com/production/tr:w-1280,ar-1440-1120,pr-true,f-auto,q-80/inventory/banner/6a7c00ae-4425-4fc6-86c1-3279d25f2ef8.png')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    minHeight: "80vh",
+    padding: "40px",
+  }}
+      >
         <div className="sell-form-container">
           <form onSubmit={handleSubmit} className="sell-form">
             <h2>Sell Your Product</h2>
@@ -164,7 +173,7 @@ function SellerPage() {
             <TextField
               fullWidth
               margin="normal"
-              label="Poster URL"
+              label="Product URL"
               name="poster"
               value={values.poster}
               onChange={handleChange}
@@ -177,7 +186,7 @@ function SellerPage() {
             <TextField
               fullWidth
               margin="normal"
-              label="Price (₹)"
+              label="Price ₹"
               name="price"
               type="number"
               value={values.price}
@@ -240,24 +249,26 @@ function SellerPage() {
             </Button>
           </form>
         </div>
+        <div>
+          <div className="sell-dashboard">
+            <h2>My Seller Dashboard</h2>
+            <h3>Manage Your Store</h3>
 
-        <div className="sell-dashboard">
-          <h2>My Seller Dashboard</h2>
-          <h3>Manage Your Store</h3>
-          <p>Quick access to your products and orders</p>
-          <div className="sell-actions">
-            <button
-              className="btn primary"
-              onClick={() => navigate("/myproducts")}
-            >
-              Live Products
-            </button>
-            <button
-              className="btn secondary"
-              onClick={() => navigate("/OrdersTaken")}
-            >
-              Orders Taken
-            </button>
+            <p>Quick access to your products and orders</p>
+            <div className="sell-actions">
+              <button
+                className="btn primary"
+                onClick={() => navigate("/myproducts")}
+              >
+                Live Products
+              </button>
+              <button
+                className="btn secondary"
+                onClick={() => navigate("/OrdersTaken")}
+              >
+                Orders Taken
+              </button>
+            </div>
           </div>
         </div>
       </div>

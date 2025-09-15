@@ -4,6 +4,9 @@ import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+
+import { IconButton } from "@mui/material";
 
 function MyProducts() {
   const [products, setProducts] = useState([]);
@@ -32,17 +35,20 @@ function MyProducts() {
   const markProductInactive = async (id, currentStatus) => {
     try {
       setDeletingId(id);
-
-      // Toggle status
       const newStatus = currentStatus === "active" ? "inactive" : "active";
 
-      const response = await fetch(`${API}/products/${id}`, {
+      const response = await fetch(`${API}/products/${id}/status`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus }),
       });
 
-      if (response.ok) fetchProducts();
+      if (response.ok) {
+        await fetchProducts();
+      } else {
+        const errData = await response.json();
+        console.error("Update failed:", errData);
+      }
     } catch (error) {
       console.error("Update status error:", error);
     } finally {
@@ -50,9 +56,9 @@ function MyProducts() {
     }
   };
 
- const editProduct = (product) => {
-  navigate("/EditProductPage", { state: { product } });
-};
+  const editProduct = (product) => {
+    navigate("/EditProductPage", { state: { product } });
+  };
 
   // ✅ Show loader while fetching products
   if (loading) {
@@ -90,33 +96,36 @@ function MyProducts() {
               <p>Qty: {p.quantity}</p>
             </div>
             <div>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => editProduct(p)}
-              sx={{ height:40,marginRight:5}}
-            >
-              Edit
-            </Button>
-            <Button
-              variant="contained"
-                sx={{ height:40}}
-              color={p.status === "active" ? "error" : "success"} // red if active, green if inactive
-              onClick={() => markProductInactive(p.id, p.status)}
-              disabled={deletingId === p.id}
-            >
-              {deletingId === p.id ? (
-                <CircularProgress size={20} color="inherit" />
-              ) : p.status === "active" ? (
-                " Inactive"
-              ) : (
-                "Active"
-              )}
-            </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => editProduct(p)}
+                sx={{ height: 40, marginRight: 5 }}
+              >
+                Edit
+              </Button>
+              <Button
+                variant="contained"
+                sx={{ height: 40 }}
+                color={p.status === "active" ? "error" : "success"} // red if active, green if inactive
+                onClick={() => markProductInactive(p.id, p.status)}
+                disabled={deletingId === p.id}
+              >
+                {deletingId === p.id ? (
+                  <CircularProgress size={20} color="inherit" />
+                ) : p.status === "active" ? (
+                  " Inactive"
+                ) : (
+                  "Active"
+                )}
+              </Button>
             </div>
           </div>
         ))
       )}
+      <IconButton onClick={() => navigate("/home")}>
+        <ArrowBackIosIcon /> 
+      </IconButton>
     </div>
   );
 }

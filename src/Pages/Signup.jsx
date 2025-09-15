@@ -47,7 +47,7 @@ export function Signup() {
 
       if (data?.token) {
         localStorage.setItem("token", data.token);
-        navigate("/home"); // redirect to homepage
+        navigate("/login"); // redirect to homepage
       } else {
         alert(data.error || "Signup failed");
       }

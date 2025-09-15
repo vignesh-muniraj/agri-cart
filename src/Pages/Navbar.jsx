@@ -8,6 +8,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { ProfileMenu } from "./ProfileMenu";
 // Styled badge for cart count
+
 const StyledBadge = styled(Badge)(() => ({
   "& .MuiBadge-badge": {
     right: -3,
@@ -33,7 +34,7 @@ function Navbar({ totalItems }) {
   return (
     <nav>
       <div>
-        <img src="src/assets/logo.png" alt="Logo" />
+        <img src="https://ik.imagekit.io/vky/agri-cart/logo.png?updatedAt=1757947460881" alt="Logo" />
       </div>
       <ul>
         <li>

@@ -5,46 +5,35 @@ import Stack from "@mui/material/Stack";
 import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
-import { styled } from '@mui/material/styles';
+import { styled } from "@mui/material/styles";
+import PersonIcon from "@mui/icons-material/Person";
+import { IconButton } from "@mui/material";
+import PhoneEnabledIcon from "@mui/icons-material/PhoneEnabled";
+import BusinessIcon from "@mui/icons-material/Business";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { useNavigate } from "react-router-dom";
 
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 10,
   borderRadius: 5,
-  width:150,
+  width: 1000,
   [`&.${linearProgressClasses.colorPrimary}`]: {
     backgroundColor: theme.palette.grey[200],
-    ...theme.applyStyles('dark', {
+    ...theme.applyStyles("dark", {
       backgroundColor: theme.palette.grey[800],
     }),
   },
   [`& .${linearProgressClasses.bar}`]: {
     borderRadius: 5,
-    backgroundColor: '#279040d2',
-    ...theme.applyStyles('dark', {
-      backgroundColor: '#308fe8',
+    backgroundColor: "#279040d2",
+    ...theme.applyStyles("dark", {
+      backgroundColor: "#308fe8",
     }),
   },
 }));
 
-const BorderLinearProgress2 = styled(LinearProgress)(({ theme }) => ({
-  height: 11,
-  borderRadius: 5,
-  width:150,
-  [`&.${linearProgressClasses.colorPrimary}`]: {
-    backgroundColor: theme.palette.grey[200],
-    ...theme.applyStyles('dark', {
-      backgroundColor: theme.palette.grey[800],
-    }),
-  },
-  [`& .${linearProgressClasses.bar}`]: {
-    borderRadius: 5,
-    backgroundColor: '#f0bf1cff',
-    ...theme.applyStyles('dark', {
-      backgroundColor: '#308fe8',
-    }),
-  },
-}));
+
 function OrdersTaken() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -98,28 +87,32 @@ function OrdersTaken() {
   const pendingOrders = orders.filter((o) => o.status === "pending").length;
   const cancelledOrders = orders.filter((o) => o.status === "cancelled").length;
 
-
-  const completedPercent = totalOrders ? (completedOrders / totalOrders) * 100 : 0;
-const pendingPercent = totalOrders ? (pendingOrders / totalOrders) * 100 : 0;
-const cancelledPercent = totalOrders ? (cancelledOrders / totalOrders) * 100 : 0;
-
+  const completedPercent = totalOrders
+    ? (completedOrders / totalOrders) * 100
+    : 0;
+  const pendingPercent = totalOrders ? (pendingOrders / totalOrders) * 100 : 0;
+  const cancelledPercent = totalOrders
+    ? (cancelledOrders / totalOrders) * 100
+    : 0;
+const navigate = useNavigate()
   return (
     <div className="orderstaken">
-    <div className="orders-page">
-    <div>
-    <h2>Orders</h2>
+      <div className="orders-page">
+        <div>
+          <h2>Orders</h2>
           <div className="order-summary">
             <p>
               <strong>Total Orders</strong> {totalOrders}
-              </p>
-              <p>
-              <strong>Completed:</strong> {completedOrders}
-              </p>
-              <BorderLinearProgress color="success" variant="determinate" value={completedPercent } />
+            </p>
             <p>
-              <strong>Pending:</strong> {pendingOrders}
-              </p>
-              <BorderLinearProgress2 variant="determinate" value={pendingPercent} />
+              <strong>Completed:</strong> {completedOrders}
+            </p>
+            <BorderLinearProgress
+              color="success"
+              variant="determinate"
+              value={completedPercent}
+            />
+           
             {/*<p>
               <strong>Cancelled:</strong> {cancelledOrders}
             </p>*/}
@@ -135,44 +128,10 @@ const cancelledPercent = totalOrders ? (cancelledOrders / totalOrders) * 100 : 0
           ) : (
             orders.map((o) => (
               <div key={o.id} className="order-taken-card">
-                <p>
-                  <strong>Order ID:</strong> {o.id}
-                </p>
-                <p>
-                  <strong>User:</strong> {o.name} ({o.phone})
-                </p>
-                <p>
-                  <strong>Address:</strong> {o.address}, {o.locality}, {o.city}{" "}
-                  - {o.pincode}, {o.state}
-                </p>
-                {o.landmark && (
+                <div className="oid-status">
                   <p>
-                    <strong>Landmark:</strong> {o.landmark}
+                    <strong>Order ID# </strong> {o.id}
                   </p>
-                )}
-                {o.altphone && (
-                  <p>
-                    <strong>Alt Phone:</strong> {o.altphone}
-                  </p>
-                )}
-
-                <p>
-                  <strong>Status:</strong>{" "}
-                  <span className={`status-badge ${o.status}`}>{o.status}</span>
-                </p>
-
-                <div className="order-taken-drop">
-                  <div className="items-list">
-                    <strong>Items:</strong>
-                    {o.items.map((item) => (
-                      <div key={item.id} className="item-row">
-                        <img src={item.poster} alt={item.product_name} />
-                        <span>
-                          {item.product_name} x {item.quantity} (₹{item.price})
-                        </span>
-                      </div>
-                    ))}
-                  </div>
                   <div className="status-row">
                     <select
                       className="status-select"
@@ -186,11 +145,77 @@ const cancelledPercent = totalOrders ? (cancelledOrders / totalOrders) * 100 : 0
                     </select>
                   </div>
                 </div>
+                <p>
+                  <strong>
+                    <IconButton>
+                      <PersonIcon />
+                    </IconButton>
+                  </strong>{" "}
+                  {o.name}
+                </p>
+                <p>
+                  <strong>
+                    <IconButton>
+                      <PhoneEnabledIcon />
+                    </IconButton>
+                  </strong>{" "}
+                  {o.phone}
+                </p>
+                <p>
+                  <strong>
+                    <IconButton>
+                      <BusinessIcon />
+                    </IconButton>
+                  </strong>
+                  {o.address}.
+                  
+                </p>
+                <p>
+                  {o.locality}
+                </p>
+                <p>
+                  {o.city}
+                </p>
+                <p>
+                  {o.state}, {o.pincode}
+                </p>
+              
+                {o.landmark && (
+                  <p>
+                    <strong>Landmark:</strong> {o.landmark}
+                  </p>
+                )}
+                {o.altphone && (
+                  <p>
+                    <strong>Alt Phone:</strong> {o.altphone}
+                  </p>
+                )}
+
+                {/*<p>
+                  <strong>Status:</strong>{" "}
+                  <span className={`status-badge ${o.status}`}>{o.status}</span>
+                </p>*/}
+
+                <div className="order-taken-drop">
+                  <div className="items-list">
+                  
+                    {o.items.map((item) => (
+                      <div key={item.id} className="item-row">
+                        <img src={item.poster} alt={item.product_name} />
+                        <span>
+                          {item.product_name} x {item.quantity} (₹{item.price})
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             ))
           )}
+          <IconButton onClick={() => navigate("/sellerpage")}><ArrowBackIosIcon/></IconButton>
         </div>
       </div>
+
     </div>
   );
 }

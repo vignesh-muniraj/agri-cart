@@ -952,7 +952,7 @@ height: 30px;
   justify-content: center;
   align-items: center;
   min-height: 90vh;
-  background: #f9fff9; /* light greenish background */
+ background-color: #e6f0ec;
   padding: 20px;
 }
 
@@ -1182,6 +1182,12 @@ width: 50%;
     gap:15px;
     margin-bottom: 25px;
     align-items: center;
+    img{
+      height: 110px;
+      width: 130px;
+      object-fit: cover;
+      
+    }
 }
 
 .product-info {
@@ -1228,8 +1234,10 @@ width: 50%;
   gap: 24px; /* Space between form and dashboard */
   margin-top: 40px;
   font-family: 'Arial', sans-serif;
-  background-color: #f5f5f5; /* light background for the page */
+  background-color: #e6f0ec;/* light background for the page */
   padding-bottom: 40px;
+  /* background-repeat: no-repeat;
+  object-fit: cover; */
 }
 
 /* Form container */
@@ -1306,10 +1314,10 @@ width: 50%;
 
 /* Dashboard action buttons */
 .sell-actions {
-  display: flex;
-  justify-content: center;
+  display: grid;
   gap: 12px;
-  margin-top: 16px;
+  height: 180px;
+
 }
 
 .sell-actions .btn {
@@ -1324,6 +1332,8 @@ width: 50%;
 .sell-actions .btn.primary {
   background-color: #4caf50;
   color: white;
+  font-size: 25px;
+  font-weight: 700;
 }
 
 .sell-actions .btn.primary:hover {
@@ -1333,6 +1343,8 @@ width: 50%;
 .sell-actions .btn.secondary {
   background-color: #2196f3;
   color: white;
+   font-size: 25px;
+  font-weight: 700;
 }
 
 .sell-actions .btn.secondary:hover {
@@ -1348,16 +1360,19 @@ width: 50%;
   }
 }
 
-
+.image-cont{
+    background-image: url("https://i.pinimg.com/736x/3c/58/0c/3c580c88a2c4a1ce1ce48bfbe842efbe.jpg");
+    height: 100%;
+}
 
 /* orderstaken */
 .orderstaken{
   .orders-page {
-    display: flex;
+    display: grid;
   max-width: 1000px;
   margin: 0 auto;
   font-family: Arial, sans-serif;
-  padding: 10px;
+  padding: 0px;
   gap: 20px;
 }
 
@@ -1378,8 +1393,16 @@ width: 50%;
   padding: 16px;
   margin-bottom: 16px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  .p{
+    padding: 0;
+    margin: 0;
+  }
 }
-
+.oid-status{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 .order-taken-card p {
   margin: 6px 0;
 }
