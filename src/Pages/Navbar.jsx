@@ -1,26 +1,25 @@
-import * as React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { styled } from "@mui/material/styles";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Badge from "@mui/material/Badge";
 import IconButton from "@mui/material/IconButton";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import LogoutIcon from "@mui/icons-material/Logout";
+import { styled } from "@mui/material/styles";
+import { Link, useNavigate } from "react-router-dom";
 import { ProfileMenu } from "./ProfileMenu";
+import { SearchBar } from "./SearchBar";
 // Styled badge for cart count
 
 const StyledBadge = styled(Badge)(() => ({
   "& .MuiBadge-badge": {
     right: -3,
-    top: 5,
+    top: 3,
     border: "2px solid white",
     padding: "0 4px",
+    width: "2px",
     backgroundColor: "#ff0000 !important",
     color: "white !important",
   },
 }));
 
-function Navbar({ totalItems }) {
+function Navbar() {
   const navigate = useNavigate();
 
   const user_id = localStorage.getItem("id");
@@ -34,9 +33,13 @@ function Navbar({ totalItems }) {
   return (
     <nav>
       <div>
-        <img src="https://ik.imagekit.io/vky/agri-cart/logo.png?updatedAt=1757947460881" alt="Logo" />
+        <img
+          src="https://ik.imagekit.io/vky/agri-cart/logo.png?updatedAt=1757947460881"
+          alt="Logo"
+        />
       </div>
       <ul>
+        <SearchBar/>
         <li>
           <Link to="/home">Home</Link>
         </li>
@@ -52,7 +55,7 @@ function Navbar({ totalItems }) {
 
         {/* ✅ Badge shows total items (all quantities) */}
         <IconButton onClick={() => navigate("/AddCart")} aria-label="cart">
-          <StyledBadge badgeContent={0}>
+          <StyledBadge badgeContent={12}>
             <ShoppingCartIcon />
           </StyledBadge>
         </IconButton>
@@ -79,3 +82,4 @@ function Navbar({ totalItems }) {
 }
 
 export { Navbar };
+

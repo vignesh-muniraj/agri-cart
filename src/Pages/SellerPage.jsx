@@ -281,7 +281,7 @@ function SellerPage() {
               fullWidth
               sx={{ mt: 2 }}
             >
-              Submit Product
+             Proceed to  Sell
             </Button>
           </form>
         </div>

@@ -98,7 +98,7 @@ function OrdersTaken() {
     <div className="orderstaken">
       <div className="orders-page">
         <div>
-          <h2>Orders</h2>
+          <h2>Orders Received</h2>
           <div className="order-summary">
             <p>
               <strong>Total Orders</strong> {totalOrders}

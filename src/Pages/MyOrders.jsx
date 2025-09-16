@@ -176,7 +176,7 @@ import { useEffect, useState } from "react";
 import { API } from "./Global";
 import { useNavigate } from "react-router-dom";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import {
   Card,
   CardContent,
@@ -290,10 +290,14 @@ function MyOrders() {
                         alt={item.product_name}
                         variant="rounded"
                         sx={{
-                          width: 60,
-                          height: 56,
+                          width: 70,
+                          height: 60,
                           mr: 1,
-                          objectFit: "cover",
+                          objectFit: "cover", // or "contain"
+                          borderRadius: 1,
+                          display: "block",
+                          backgroundColor: "#f9f9f9",
+                          boxShadow: 1,
                         }}
                       />
                     </ListItemAvatar>
@@ -316,15 +320,18 @@ function MyOrders() {
                   {getStepIcon(order.status, "confirmed")}
                   <span className="step-text">
                     Order Confirmed,{" "}
-                    {new Date(order.created_at + "Z").toLocaleDateString("en-IN", {
-                      day: "2-digit",
-                      month: "short",
-                      year: "numeric",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                      hour12: true,
-                      timeZone: "Asia/Kolkata",
-                    })}
+                    {new Date(order.created_at + "Z").toLocaleDateString(
+                      "en-IN",
+                      {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: true,
+                        timeZone: "Asia/Kolkata",
+                      }
+                    )}
                   </span>
                 </div>
 
