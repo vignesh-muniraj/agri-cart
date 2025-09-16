@@ -47,7 +47,7 @@ function Navbar({ totalItems }) {
           <Link to="/ProductList">Products</Link>
         </li>
         <li>
-          <Link to="/sellerPage">StartSelling</Link>
+          <Link to="/sellerPage">ManageStore</Link>
         </li>
 
         {/* ✅ Badge shows total items (all quantities) */}

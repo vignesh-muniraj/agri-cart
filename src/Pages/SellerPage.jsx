@@ -6,7 +6,8 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import CircularProgress from "@mui/material/CircularProgress";
-import InventoryIcon from "@mui/icons-material/Inventory";
+import Alert from "@mui/material/Alert";
+import CheckIcon from "@mui/icons-material/Check";
 import { API } from "./Global";
 
 const productSchema = object({
@@ -24,6 +25,7 @@ const productSchema = object({
 function SellerPage() {
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [seller_or_buyer, setSeller_or_buyer] = useState(null);
   const [loading, setLoading] = useState(true);
   const [aadhar, setAadhar] = useState("");
@@ -39,7 +41,7 @@ function SellerPage() {
         setSeller_or_buyer(data.seller_or_buyer);
       } catch (err) {
         console.error("Error fetching user role:", err);
-        setSeller_or_buyer("buyer"); // fallback
+        setSeller_or_buyer("buyer"); // fallback to buyer
       } finally {
         setLoading(false);
       }
@@ -47,10 +49,21 @@ function SellerPage() {
     fetchUser();
   }, [userId]);
 
+  // ✅ Auto-hide success/error messages
+  useEffect(() => {
+    if (success || error) {
+      const timer = setTimeout(() => {
+        setSuccess("");
+        setError("");
+      }, 3000); // hide after 3 sec
+      return () => clearTimeout(timer);
+    }
+  }, [success, error]);
+
   // ✅ Upgrade buyer to seller
   const handleUpgrade = async () => {
     if (aadhar.length !== 12 || !/^\d{12}$/.test(aadhar)) {
-      alert("Enter a valid 12-digit Aadhaar number");
+      setError("Enter a valid 12-digit Aadhaar number");
       return;
     }
     try {
@@ -61,14 +74,14 @@ function SellerPage() {
       });
       const data = await res.json();
       if (res.ok) {
-        alert("Upgraded to Seller ✅");
+        setSuccess("Upgraded to Seller ✅");
         setSeller_or_buyer("seller");
       } else {
-        alert(data.error || "Failed to upgrade");
+        setError(data.error || "Failed to upgrade");
       }
     } catch (err) {
       console.error("Upgrade error:", err);
-      alert("Something went wrong. Try again!");
+      setError("Something went wrong. Try again!");
     }
   };
 
@@ -121,6 +134,23 @@ function SellerPage() {
       <div className="upgrade-container">
         <h2>Become a Seller</h2>
         <p>Enter your Aadhaar number to upgrade your account.</p>
+
+        {success && (
+          <Alert
+            icon={<CheckIcon fontSize="inherit" />}
+            severity="success"
+            sx={{ mb: 2 }}
+          >
+            {success}
+          </Alert>
+        )}
+
+        {error && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error}
+          </Alert>
+        )}
+
         <TextField
           fullWidth
           margin="normal"
@@ -144,14 +174,16 @@ function SellerPage() {
   // ✅ Seller → show product form + dashboard
   if (seller_or_buyer === "seller") {
     return (
-      <div className="sell-container" 
-               style={{
-    backgroundImage: "url('https://cdn.zeptonow.com/production/tr:w-1280,ar-1440-1120,pr-true,f-auto,q-80/inventory/banner/6a7c00ae-4425-4fc6-86c1-3279d25f2ef8.png')",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    minHeight: "80vh",
-    padding: "40px",
-  }}
+      <div
+        className="sell-container"
+        style={{
+          backgroundImage:
+            "url('')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          minHeight: "80vh",
+          padding: "40px",
+        }}
       >
         <div className="sell-form-container">
           <form onSubmit={handleSubmit} className="sell-form">
@@ -236,7 +268,11 @@ function SellerPage() {
               <MenuItem value="Summer Deals">Summer Deals</MenuItem>
             </TextField>
 
-            {error && <p className="error-text">{error}</p>}
+            {error && (
+              <Alert severity="error" sx={{ mt: 2 }}>
+                {error}
+              </Alert>
+            )}
 
             <Button
               type="submit"
@@ -253,7 +289,6 @@ function SellerPage() {
           <div className="sell-dashboard">
             <h2>My Seller Dashboard</h2>
             <h3>Manage Your Store</h3>
-
             <p>Quick access to your products and orders</p>
             <div className="sell-actions">
               <button

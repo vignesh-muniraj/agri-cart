@@ -123,7 +123,7 @@ function MyProducts() {
           </div>
         ))
       )}
-      <IconButton onClick={() => navigate("/home")}>
+      <IconButton onClick={() => navigate("/sellerpage")}>
         <ArrowBackIosIcon /> 
       </IconButton>
     </div>

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { API } from "./Global";
 import CircularProgress from "@mui/material/CircularProgress";
-import Stack from "@mui/material/Stack";
 import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
@@ -10,9 +9,8 @@ import PersonIcon from "@mui/icons-material/Person";
 import { IconButton } from "@mui/material";
 import PhoneEnabledIcon from "@mui/icons-material/PhoneEnabled";
 import BusinessIcon from "@mui/icons-material/Business";
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { useNavigate } from "react-router-dom";
-
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 10,
@@ -33,12 +31,12 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   },
 }));
 
-
 function OrdersTaken() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [updatingId, setUpdatingId] = useState(null); // track which order is updating
+  const [updatingId, setUpdatingId] = useState(null);
   const user_id = localStorage.getItem("id");
+  const navigate = useNavigate();
 
   const fetchOrders = async () => {
     try {
@@ -59,15 +57,21 @@ function OrdersTaken() {
 
   const updateOrderStatus = async (orderId, status) => {
     setUpdatingId(orderId);
+
+    let delivery_date = null;
+    if (status === "completed") {
+      delivery_date = new Date().toISOString(); // ✅ current timestamp
+    }
+
     setOrders((prev) =>
-      prev.map((o) => (o.id === orderId ? { ...o, status } : o))
+      prev.map((o) => (o.id === orderId ? { ...o, status, delivery_date } : o))
     );
 
     try {
       const response = await fetch(`${API}/orders/${orderId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status }),
+        body: JSON.stringify({ status, delivery_date }),
       });
       if (!response.ok) {
         console.error("Failed to update status on server");
@@ -85,16 +89,11 @@ function OrdersTaken() {
   const totalOrders = orders.length;
   const completedOrders = orders.filter((o) => o.status === "completed").length;
   const pendingOrders = orders.filter((o) => o.status === "pending").length;
-  const cancelledOrders = orders.filter((o) => o.status === "cancelled").length;
 
   const completedPercent = totalOrders
     ? (completedOrders / totalOrders) * 100
     : 0;
-  const pendingPercent = totalOrders ? (pendingOrders / totalOrders) * 100 : 0;
-  const cancelledPercent = totalOrders
-    ? (cancelledOrders / totalOrders) * 100
-    : 0;
-const navigate = useNavigate()
+
   return (
     <div className="orderstaken">
       <div className="orders-page">
@@ -112,12 +111,9 @@ const navigate = useNavigate()
               variant="determinate"
               value={completedPercent}
             />
-           
-            {/*<p>
-              <strong>Cancelled:</strong> {cancelledOrders}
-            </p>*/}
           </div>
         </div>
+
         <div>
           {loading ? (
             <div className="loading">
@@ -131,55 +127,78 @@ const navigate = useNavigate()
                 <div className="oid-status">
                   <p>
                     <strong>Order ID# </strong> {o.id}
+                       {/* ✅ Ordered Date */}
+                <p className="ordered-date">
+                  {new Date(o.created_at + "Z").toLocaleString("en-IN", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: true,
+                    timeZone: "Asia/Kolkata",
+                  })}
+                </p>
                   </p>
+                  
                   <div className="status-row">
                     <select
                       className="status-select"
                       value={o.status}
-                      disabled={updatingId === o.id} // disable when updating
+                      disabled={updatingId === o.id}
                       onChange={(e) => updateOrderStatus(o.id, e.target.value)}
                     >
                       <option value="pending">Pending</option>
                       <option value="completed">Completed</option>
                       <option value="cancelled">Cancelled</option>
                     </select>
+                    {/* ✅ Delivery Date */}
+                    {o.status === "completed" && o.delivery_date && (
+                      <p className="delivery-date">
+                        {new Date(o.delivery_date).toLocaleString("en-IN", {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          hour12: true,
+                          timeZone: "Asia/Kolkata",
+                        })}
+                      </p>
+                    )}
                   </div>
                 </div>
+             
+
+                {o.status === "pending" && (
+                  <p className="delivery-pending">Delivery within 24 hrs</p>
+                )}
+
+                {/* Customer Info */}
                 <p>
-                  <strong>
-                    <IconButton>
-                      <PersonIcon />
-                    </IconButton>
-                  </strong>{" "}
+                  <IconButton>
+                    <PersonIcon />
+                  </IconButton>{" "}
                   {o.name}
                 </p>
                 <p>
-                  <strong>
-                    <IconButton>
-                      <PhoneEnabledIcon />
-                    </IconButton>
-                  </strong>{" "}
+                  <IconButton>
+                    <PhoneEnabledIcon />
+                  </IconButton>{" "}
                   {o.phone}
                 </p>
                 <p>
-                  <strong>
-                    <IconButton>
-                      <BusinessIcon />
-                    </IconButton>
-                  </strong>
-                  {o.address}.
-                  
+                  <IconButton>
+                    <BusinessIcon />
+                  </IconButton>{" "}
+                  {o.address}
                 </p>
-                <p>
-                  {o.locality}
-                </p>
-                <p>
-                  {o.city}
-                </p>
+                <p>{o.locality}</p>
+                <p>{o.city}</p>
                 <p>
                   {o.state}, {o.pincode}
                 </p>
-              
+
                 {o.landmark && (
                   <p>
                     <strong>Landmark:</strong> {o.landmark}
@@ -191,14 +210,9 @@ const navigate = useNavigate()
                   </p>
                 )}
 
-                {/*<p>
-                  <strong>Status:</strong>{" "}
-                  <span className={`status-badge ${o.status}`}>{o.status}</span>
-                </p>*/}
-
+                {/* Order Items */}
                 <div className="order-taken-drop">
                   <div className="items-list">
-                  
                     {o.items.map((item) => (
                       <div key={item.id} className="item-row">
                         <img src={item.poster} alt={item.product_name} />
@@ -212,10 +226,11 @@ const navigate = useNavigate()
               </div>
             ))
           )}
-          <IconButton onClick={() => navigate("/sellerpage")}><ArrowBackIosIcon/></IconButton>
+          <IconButton onClick={() => navigate("/sellerpage")}>
+            <ArrowBackIosIcon />
+          </IconButton>
         </div>
       </div>
-
     </div>
   );
 }
