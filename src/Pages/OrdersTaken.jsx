@@ -93,7 +93,7 @@ function OrdersTaken() {
   const completedPercent = totalOrders
     ? (completedOrders / totalOrders) * 100
     : 0;
-
+  
   return (
     <div className="orderstaken">
       <div className="orders-page">
@@ -126,9 +126,9 @@ function OrdersTaken() {
               <div key={o.id} className="order-taken-card">
                 <div className="oid-status">
                   <p>
-                    <strong>Order ID# </strong> {o.id}
+                    <strong style={{color:"green"}}>Order ID </strong># {o.id}
                        {/* ✅ Ordered Date */}
-                <p className="ordered-date">
+                <p className="ordered-date" style={{color:"green"}}>
                   {new Date(o.created_at + "Z").toLocaleString("en-IN", {
                     day: "2-digit",
                     month: "short",
@@ -154,7 +154,7 @@ function OrdersTaken() {
                     </select>
                     {/* ✅ Delivery Date */}
                     {o.status === "completed" && o.delivery_date && (
-                      <p className="delivery-date">
+                      <p className="delivery-date" style={{color:"green"}}>
                         {new Date(o.delivery_date).toLocaleString("en-IN", {
                           day: "2-digit",
                           month: "short",
@@ -171,7 +171,7 @@ function OrdersTaken() {
              
 
                 {o.status === "pending" && (
-                  <p className="delivery-pending">Delivery within 24 hrs</p>
+                  <p className="delivery-pending"></p>
                 )}
 
                 {/* Customer Info */}

@@ -13,7 +13,7 @@
 //         centerMode={true}
 //         centerSlidePercentage={70}
 //         // dynamicHeight={false}
-//       > 
+//       >
 //         <div className="slide-wrapper">
 //           <img
 //             alt=""
@@ -39,7 +39,7 @@
 //           />
 //         </div>
 //       </Carousel>
-    
+
 //      </div>
 //   );
 // }
@@ -49,6 +49,7 @@ import React, { useEffect, useState } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import mobileBanner from "../assets/Untitled.png"; // 👈 your local image
+import { useNavigate } from "react-router-dom";
 
 function Hero() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
@@ -65,14 +66,16 @@ function Hero() {
     "https://cdn.vegease.in/home-page/LIVE/1732088901649_grM8g.png",
     "https://cdn.vegease.in/home-page/LIVE/1732088918205_LiNr8.png",
   ];
-
+  const navigate = useNavigate();
   return (
     <div className="hero-container">
       {isMobile ? (
         <img
-          src={"https://ik.imagekit.io/vky/agri-cart/Untitled.png?updatedAt=1757947474535"}
+          src={
+            "https://ik.imagekit.io/vky/agri-cart/Untitled.png?updatedAt=1757947474535"
+          }
           alt="mobile hero banner"
-          style={{ width: "100%",height:"50%", borderRadius: "12px" }}
+          style={{ width: "100%", height: "50%", borderRadius: "12px" }}
         />
       ) : (
         <Carousel
@@ -85,7 +88,14 @@ function Hero() {
           centerSlidePercentage={80}
         >
           {images.map((src, i) => (
-            <div key={i} className="slide-wrapper">
+            <div
+              key={i}
+              className="slide-wrapper"
+              role="button"
+              tabIndex={0}
+              onClick={() => navigate("/ProductList")}
+              onKeyDown={(e) => e.key === "Enter" && navigate("/ProductList")}
+            >
               <img src={src} alt={`banner-${i}`} />
             </div>
           ))}
@@ -96,4 +106,3 @@ function Hero() {
 }
 
 export { Hero };
-

@@ -75,7 +75,7 @@ function PlaceOrder() {
 
         setTimeout(() => {
           setSuccess(false);
-          navigate("/Home");
+          navigate("/myorders");
         }, 4000);
       } else {
         setMessage(data.error ? data.error : "❌ Failed to place order");
