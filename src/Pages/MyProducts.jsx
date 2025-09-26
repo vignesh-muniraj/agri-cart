@@ -10,8 +10,8 @@ import { IconButton } from "@mui/material";
 
 function MyProducts() {
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true); // ✅ loader state
-  const [deletingId, setDeletingId] = useState(null); // ✅ track which product is deleting
+  const [loading, setLoading] = useState(true);
+  const [deletingId, setDeletingId] = useState(null); 
   const user_id = localStorage.getItem("id");
   const navigate = useNavigate();
 
@@ -60,7 +60,6 @@ function MyProducts() {
     navigate("/EditProductPage", { state: { product } });
   };
 
-  // ✅ Show loader while fetching products
   if (loading) {
     return (
       <Box
@@ -107,7 +106,7 @@ function MyProducts() {
               <Button
                 variant="contained"
                 sx={{ height: 40 }}
-                color={p.status === "active" ? "error" : "success"} // red if active, green if inactive
+                color={p.status === "active" ? "error" : "success"} 
                 onClick={() => markProductInactive(p.id, p.status)}
                 disabled={deletingId === p.id}
               >

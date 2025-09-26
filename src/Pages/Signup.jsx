@@ -1,10 +1,9 @@
 import { useFormik } from "formik";
 import { useNavigate, Link } from "react-router-dom";
-import { object, string, ref } from "yup"; // ✅ add ref for confirm password
+import { object, string, ref } from "yup"; 
 import TextField from "@mui/material/TextField";
   import { API } from "./Global";  
   
-// ✅ Validation schema with confirm password
 const signupSchema = object({
   username: string().required("Username is required "),
   email: string().email("Invalid email format").required("Email is required "),
@@ -105,7 +104,6 @@ export function Signup() {
           helperText={touched.password && errors.password}
         />
 
-        {/* Confirm Password */}
         <TextField
           fullWidth
           margin="normal"
@@ -124,7 +122,6 @@ export function Signup() {
           Signup
         </button>
 
-        {/* Login Link */}
         <p className="login-link">
           Already have an account? <Link to="/login">Login</Link>
         </p>

@@ -18,7 +18,7 @@ function AddCart({ product, onDelete, onQuantityChange }) {
   const handleDecrease = () => {
     if (count > 1) {
       const newCount = parseInt(count) - 1;
-      setCount(newCount);            // ✅ instant update
+      setCount(newCount);           
       setError("");
       onQuantityChange(product.id, newCount);
     } else {

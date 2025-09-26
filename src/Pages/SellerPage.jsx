@@ -171,7 +171,7 @@ function SellerPage() {
     );
   }
 
-  // ✅ Seller → show product form + dashboard
+  // Seller → show product form + dashboard
   if (seller_or_buyer === "seller") {
     return (
       <div

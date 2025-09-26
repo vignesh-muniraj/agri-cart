@@ -1,84 +1,4 @@
-// import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-// import Badge from "@mui/material/Badge";
-// import IconButton from "@mui/material/IconButton";
-// import { styled } from "@mui/material/styles";
-// import { Link, useNavigate } from "react-router-dom";
-// import { ProfileMenu } from "./ProfileMenu";
-// import { SearchBar } from "./SearchBar";
-// import { NavLink} from "react-router-dom"; // ⬅️ use NavLink instead of Link
-// // Styled badge for cart count
 
-// const StyledBadge = styled(Badge)(() => ({
-//   "& .MuiBadge-badge": {
-//     right: -3,
-//     top: 3,
-//     border: "2px solid white",
-//     padding: "0 4px",
-//     width: "2px",
-//     backgroundColor: "#ff0000 !important",
-//     color: "white !important",
-//   },
-// }));
-
-
-// function Navbar() {
-//   const navigate = useNavigate();
-//   const user_id = localStorage.getItem("id");
-//   const user_name = localStorage.getItem("username");
-
-//   const handleLogout = () => {
-//     localStorage.clear();
-//     navigate("/Login");
-//   };
-
-//   return (
-//     <nav>
-//       <div>
-//         <img
-//           src="https://ik.imagekit.io/vky/agri-cart/logo.png?updatedAt=1757947460881"
-//           alt="Logo"
-//         />
-//       </div>
-//       <ul>
-//         <SearchBar />
-
-//         <li>
-//           <NavLink to="/home" className={({ isActive }) => (isActive ? "active-link" : "")}>
-//             Home
-//           </NavLink>
-//         </li>
-//         <li>
-//           <NavLink to="/about" className={({ isActive }) => (isActive ? "active-link" : "")}>
-//             About
-//           </NavLink>
-//         </li>
-//         <li>
-//           <NavLink to="/ProductList" className={({ isActive }) => (isActive ? "active-link" : "")}>
-//             Products
-//           </NavLink>
-//         </li>
-//         <li>
-//           <NavLink to="/sellerPage" className={({ isActive }) => (isActive ? "active-link" : "")}>
-//             ManageStore
-//           </NavLink>
-//         </li>
-
-//         <IconButton onClick={() => navigate("/AddCart")} aria-label="cart">
-//           <StyledBadge badgeContent={0}>
-//             <ShoppingCartIcon />
-//           </StyledBadge>
-//         </IconButton>
-
-//         <div className="username">
-//           <p>{user_name ? user_name.toLocaleUpperCase() : " "}</p>
-//           <ProfileMenu />
-//         </div>
-//       </ul>
-//     </nav>
-//   );
-// }
-
-// export { Navbar };
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import MenuIcon from "@mui/icons-material/Menu";
 import Badge from "@mui/material/Badge";
@@ -137,7 +57,6 @@ function Navbar() {
         />
       </div>
 
-      {/* ✅ Desktop Links */}
       {!isMobile && (
         <ul>
           <SearchBar />
@@ -165,14 +84,12 @@ function Navbar() {
           </StyledBadge>
         </IconButton>
 
-        {/* Menu second (only mobile) */}
         {isMobile && (
           <IconButton onClick={toggleDrawer(true)}>
             <MenuIcon />
           </IconButton>
         )}
 
-        {/* Profile: desktop shows normally, mobile still inside drawer */}
         {!isMobile && (
           <div className="username">
             <p>{user_name ? user_name.toUpperCase() : " "}</p>
@@ -181,7 +98,6 @@ function Navbar() {
         )}
       </div>
 
-      {/* ✅ Drawer for Mobile */}
       <Drawer anchor="left" open={open} onClose={toggleDrawer(false)}>
         <List sx={{ width: 220 }}>
           {/* Profile inside Drawer (mobile) */}

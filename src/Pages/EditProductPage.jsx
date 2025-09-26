@@ -38,10 +38,8 @@ function EditProductPage() {
       });
 
       if (res.ok) {
-        // Product saved successfully
         setSuccessMessage("Product updated successfully!");
 
-        // Update local product object to reflect saved values
         product.name = form.name;
         product.price = form.price;
         product.quantity = form.quantity;

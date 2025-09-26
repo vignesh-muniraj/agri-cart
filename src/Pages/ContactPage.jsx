@@ -3,7 +3,7 @@ import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
 import { number, object, string } from "yup";
 
-// ✅ Validation Schema
+//  Validation Schema
 const contactData = object({
   name: string().required("Please enter your name"),
   email: string().email("Invalid email").required("Please enter your email"),
@@ -24,7 +24,7 @@ function ContactPage() {
       },
       validationSchema: contactData,
       onSubmit: (data) => {
-        console.log("Contact Form Submitted ✅", data);
+        console.log("Contact Form Submitted ", data);
         alert("Message sent successfully!");
       },
     });

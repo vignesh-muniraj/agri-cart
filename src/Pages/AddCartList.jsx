@@ -7,11 +7,10 @@ import Box from "@mui/material/Box";
 
 function AddCartList() {
   const [productsList, setProductsList] = useState([]);
-  const [loading, setLoading] = useState(true); // ✅ loader state
+  const [loading, setLoading] = useState(true); //  loader state
   const user_id = localStorage.getItem("id");
   const navigate = useNavigate();
 
-  // ✅ Fetch cart items for logged in user
   async function getProducts() {
     if (!user_id) {
       console.log("⚠️ User not logged in");
@@ -27,11 +26,11 @@ function AddCartList() {
     } catch (error) {
       console.log("Oops:", error);
     } finally {
-      setLoading(false); // ✅ stop loader
+      setLoading(false); //  stop loader
     }
   }
 
-  // ✅ Delete cart item
+  //  Delete cart item
   async function handleDelete(id) {
     try {
       await fetch(`${API}/cart/${id}`, {
@@ -43,7 +42,7 @@ function AddCartList() {
     }
   }
 
-  // ✅ Update quantity
+  // Update quantity
   async function handleQuantityChange(id, newCount) {
     try {
       await fetch(`${API}/cart/${id}`, {
@@ -66,7 +65,7 @@ function AddCartList() {
     getProducts();
   }, []);
 
-  // ✅ Price calculations
+  //  Price calculations
   const totalItems = productsList.length;
   const totalQuantity = productsList.reduce(
     (sum, item) => sum + (parseInt(item.count) || 1),
@@ -83,7 +82,7 @@ function AddCartList() {
   const finalAmount = totalPrice - discount - coupon + deliveryFee;
   const totalSaved = discount + coupon;
 
-  // ✅ Show loader while fetching
+  //  Show loader while fetching
   if (loading) {
     return (
       <Box
