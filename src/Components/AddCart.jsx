@@ -10,9 +10,9 @@ function AddCart({ product, onDelete, onQuantityChange }) {
 
   const handleIncrease = () => {
     const newCount = parseInt(count) + 1;
-    setCount(newCount);              // ✅ instant update
+    setCount(newCount);             
     setError("");
-    onQuantityChange(product.id, newCount); // sync to backend
+    onQuantityChange(product.id, newCount); 
   };
 
   const handleDecrease = () => {

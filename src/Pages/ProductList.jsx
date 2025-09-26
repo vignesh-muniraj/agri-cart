@@ -215,7 +215,7 @@ function ProductList() {
     {
       poster:
         "https://egreensapp.s3.ap-south-1.amazonaws.com/LIVE/category/1742537055618_wAsTg.png",
-      name: "Summer Deals",
+      name: "cereals & pulses",
     },
   ];
 
@@ -266,50 +266,49 @@ function ProductList() {
 
   // ✅ Add to cart
   const addCart = async (product) => {
-  const user_id = localStorage.getItem("id");
-  if (!user_id) {
-    navigate("/login");
-    return;
-  }
-
-  try {
-    // Get current cart
-    const res = await fetch(`${API}/cart/${user_id}`);
-    const currentCart = await res.json();
-
-    // Check if product already exists
-    const exists = currentCart.find((item) => item.product_id === product.id);
-
-    if (exists) {
-      // alert("This product is already in your cart!");
-      return; // stop here, don’t continue
+    const user_id = localStorage.getItem("id");
+    if (!user_id) {
+      navigate("/login");
+      return;
     }
 
-    //  Otherwise add new product
-    const response = await fetch(`${API}/cart`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        user_id: parseInt(user_id),
-        product_id: product.id,
-        quantity: product.quantity || "500g",
-        count: 1,
-      }),
-    });
+    try {
+      // Get current cart
+      const res = await fetch(`${API}/cart/${user_id}`);
+      const currentCart = await res.json();
 
-    if (!response.ok) {
-      const err = await response.json();
-      throw new Error(err.error || "Failed to add to cart");
+      // Check if product already exists
+      const exists = currentCart.find((item) => item.product_id === product.id);
+
+      if (exists) {
+        // alert("This product is already in your cart!");
+        return; // stop here, don’t continue
+      }
+
+      //  Otherwise add new product
+      const response = await fetch(`${API}/cart`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: parseInt(user_id),
+          product_id: product.id,
+          quantity: product.quantity || "500g",
+          count: 1,
+        }),
+      });
+
+      if (!response.ok) {
+        const err = await response.json();
+        throw new Error(err.error || "Failed to add to cart");
+      }
+
+      await response.json();
+      // alert("Product added to cart successfully ✅");
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      // alert(`Error: ${error.message}`);
     }
-
-    await response.json();
-    // alert("Product added to cart successfully ✅");
-  } catch (error) {
-    console.error("Error adding to cart:", error);
-    // alert(`Error: ${error.message}`);
-  }
-};
-
+  };
 
   // ✅ Delete product by Admin
   const deleteProduct = async (id) => {
@@ -362,6 +361,9 @@ function ProductList() {
           Showing results for: <strong>{searchQuery}</strong>
         </p>
       )}
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <p>{selectCategory}</p>
+      </div>
       <div className="productlist-container">
         {productsList
           .filter(

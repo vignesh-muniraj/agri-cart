@@ -44,7 +44,7 @@ nav ul li a.active-link {
 } */
 nav {
   /* max-width: 1400px; */
-  margin: 10px auto;
+  margin: 5px auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -699,8 +699,8 @@ ul li {
 /* Dots (indicators) */
 .carousel .control-dots .dot {
   background: #228b22; 
-  width: 14px;
-  height: 14px;
+  width: 7px;
+  height: 7px;
   margin: 0 6px;
   opacity: 0.6;
   transition: all 0.3s ease;
@@ -1051,6 +1051,7 @@ height: 30px;
 }
 
 
+
 /* sellerpage */
 .sell-container {
   display: flex;
@@ -1060,6 +1061,7 @@ height: 30px;
  background-color: #e6f0ec;
   padding: 20px;
 }
+
 
 .sell-form {
   background: #ffffff;
@@ -1362,7 +1364,7 @@ width: 50%;
   flex-direction: column; /* Stack form and dashboard vertically */
   align-items: center;
   gap: 24px; /* Space between form and dashboard */
-  margin-top: 40px;
+  margin-top: 10px;
   font-family: 'Arial', sans-serif;
   background-color: #e6f0ec;/* light background for the page */
   padding-bottom: 40px;
@@ -1537,9 +1539,15 @@ width: 50%;
   margin: 6px 0;
 }
 .order-taken-drop{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+         display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 10px;
+         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 5px;
+  margin: 2px;
+  border-radius: 5px;
 }
 .items-list {
   margin-top: 12px;
@@ -1553,8 +1561,8 @@ width: 50%;
 }
 
 .item-row img {
-  width: 50px;
-  height: 50px;
+  width: 65px;
+  height: 65px;
   object-fit: cover;
   border-radius: 6px;
   border: 1px solid #ddd;
@@ -1578,6 +1586,16 @@ width: 50%;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 
 }
+
+.amount{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+/* .Customer-Info{
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 5px;
+} */
 /* ✅ Status Badges */
 .status-badge {
   display: inline-block;
@@ -1666,7 +1684,7 @@ width: 50%;
   justify-content: center;
   gap: 5px;                   
   padding: 5px 10px;
-  background-color: #e22315d9;  
+  /* background-color: #e22315d9;   */
   color: white;               
   border-radius: 5px;         
   font-size: 14px;

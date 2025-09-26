@@ -16,6 +16,8 @@ import { ProductList } from "./Pages/ProductList";
 import { SellerPage } from "./Pages/SellerPage";
 import { Signup } from "./Pages/Signup";
 import "./styles.css";
+import { ToastContainer } from "react-toastify";
+
 
 function App() {
   return (
@@ -37,7 +39,8 @@ function App() {
           <Route path="/OrdersTaken" element={<OrdersTaken />} />
           <Route path="/AdminPage" element={<AdminPage />} />
           <Route path="/EditProductPage" element={<EditProductPage />} />
-        </Routes>
+          </Routes>
+          <ToastContainer />
         <Footer />
       </div>
   );
